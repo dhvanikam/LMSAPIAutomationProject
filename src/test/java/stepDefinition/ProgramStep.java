@@ -1,12 +1,11 @@
 package stepDefinition;
 
-import static org.hamcrest.Matchers.equalTo;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.TimeZone;
 
 import org.json.simple.JSONObject;
@@ -53,7 +52,10 @@ public class ProgramStep {
 		 */
 		Map<String, Object> map = new HashMap<String, Object>();
 		JSONObject requestbody = new JSONObject(map);
-		requestbody.put("programName", "Jan23-NinjaTrainees-Selenium-001");
+		Random rand = new Random();
+		int randomnum = rand.nextInt(100);
+		String programNameString = "Jan23-NinjaTrainees-Selenium-"+randomnum;
+		requestbody.put("programName", programNameString);
 		requestbody.put("programDescription","Learn Selenium");
 		requestbody.put("programStatus", "Active");
 		requestbody.put("creationTime","2023-01-12T16:02:34.753+00:00");
@@ -66,7 +68,7 @@ public class ProgramStep {
 
 	@When("do a {string} request")
 	public void do_a_request(String string) {
-		System.out.println(request);
+		
 		response = request.post("/saveprogram");
 	}
 
