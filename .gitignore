@@ -1,3 +1,5 @@
 allure-results/
 test-output/
 target/
+.settings/org.eclipse.ltk.core.refactoring.prefs
+logs/
