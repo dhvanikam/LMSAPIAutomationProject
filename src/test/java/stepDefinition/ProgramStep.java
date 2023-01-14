@@ -94,6 +94,19 @@ public class ProgramStep {
 			response = request.put(updatedEndpoint2);
             break;
             
+		case "DELETE":
+			String pid=commnutils.getKeyValue("prgrmID").toString();
+		    Loggerload.info("Delete By Program ID :"+pid);
+		    String updatedEndpoint3 = endpoint.replace(":(ProgramID)", pid);
+			Loggerload.info(updatedEndpoint3);
+			response = request.delete(updatedEndpoint3);
+			String pid1=commnutils.getKeyValue("prgrmID1").toString();
+		    Loggerload.info("Delete By Program ID :"+pid1);
+		    String updatedEndpoint4 = endpoint.replace(":(ProgramID)", pid1);
+			Loggerload.info(updatedEndpoint4);
+			response = request.delete(updatedEndpoint4);
+			break;
+			
 		default:
 			System.out.println("Unexpected request");
 		}
