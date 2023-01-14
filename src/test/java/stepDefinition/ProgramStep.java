@@ -31,6 +31,7 @@ public class ProgramStep {
 	String programName;
 	String programdesc;
 	String programstatus;
+	String createModTime;
 
 	static String expProgramname;
 	static String expProgramdesc;
@@ -50,7 +51,7 @@ public class ProgramStep {
 	
 	@When("User add body with program name, program description and {string}")
 	public void user_add_body_with_program_name_program_description_and(String prgmst) {
-		String createModTime = commnutils.getDateISOformat();
+		createModTime = commnutils.getDateISOformat();
 		String pname = commnutils.getProgramName();
 		Loggerload.debug("construct the Program name - as per the pattern");		
 		String programNameString = commnutils.getMonth()+commnutils.getYear()+"-NinjaTrainees-"+pname+"-"+commnutils.getSerialNumber();
@@ -83,8 +84,16 @@ public class ProgramStep {
 			String updatedEndpoint = endpoint.replace(":ProgramId", programID.toString());
 			Loggerload.info(updatedEndpoint);
 			response = request.get(updatedEndpoint);
-
 			break;
+			
+		case "PUT":
+		    String pname=commnutils.getKeyValue("prgrmName").toString();
+		    Loggerload.info("Update By Program Name :"+pname);
+            String updatedEndpoint2 = endpoint.replace(":(ProgramName)",pname);
+            Loggerload.info(updatedEndpoint2);
+			response = request.put(updatedEndpoint2);
+            break;
+            
 		default:
 			System.out.println("Unexpected request");
 		}
@@ -114,7 +123,7 @@ public class ProgramStep {
 
 	@Then("User get status code as {int}")
 	public void user_get_status_code_as(Integer int1) {
-	Assert.assertEquals(response.getStatusCode(), int1);
+	Assert.assertEquals(response.getStatusCode(),int1);
 	}
 
 	@Then("Validate the response fields")
@@ -123,5 +132,39 @@ public class ProgramStep {
 		Assert.assertEquals(programdesc, expProgramdesc);
 		Assert.assertEquals(programstatus, expProgramstatus);
 	}
+	
+//_____________User update Program by ProgramName_____________________________
+	
+	@When("User add body with new program name and program description")
+	public void user_add_body_with_new_program_name_and_program_description() {
+		
+		createModTime = commnutils.getDateISOformat();
+		String pname = commnutils.getProgramName();
+		String programNameString = commnutils.getMonth()+commnutils.getYear()+"-NinjaTrainees-"+pname+"-"+commnutils.getSerialNumber();
+		String prgdesc = "Study "+pname;
+		String status=commnutils.getKeyValue("programStatus").toString();
+		
+		expProgramname=programNameString;
+		expProgramdesc=prgdesc;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject requestbody = new JSONObject(map);
 
+		
+		requestbody.put("programName", programNameString);
+		requestbody.put("programDescription", prgdesc);
+		requestbody.put("programStatus", status);
+		requestbody.put("creationTime", createModTime);
+		requestbody.put("lastModTime", createModTime);
+
+		
+		request.body(requestbody.toJSONString());
+		
+		Loggerload.info("New Program Name :"+expProgramname);
+		Loggerload.info("New Program Description : "+expProgramdesc);
+	    
+	}
+
+	   
+	
 }
