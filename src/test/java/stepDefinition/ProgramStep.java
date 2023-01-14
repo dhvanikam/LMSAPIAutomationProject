@@ -74,6 +74,8 @@ public class ProgramStep {
 	}
 	@When("User make a {string} request with endpoint {string}")
 	public void user_make_a_request_with_endpoint(String req, String endpoint) {
+		System.out.println("endpoint : "+endpoint);
+
 		switch (req) {
 		case "POST":
 			response = request.post(endpoint);
