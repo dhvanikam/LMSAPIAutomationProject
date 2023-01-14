@@ -31,13 +31,13 @@ public class BatchStep {
 	String batchdescription;
 	String batchstatus;
 	Integer batchNoOfClasses;
-//	Integer programId;
+	Integer programId=360;
 
 	static String expBatchname;
 	static String expBatchdesc;
 	static String expBatchstatus;
 	static Integer expBatchNoOfClasses;
-//	static Integer expProgramId;
+	static Integer expProgramId;
 
 	Scenario scenario;
 	
@@ -56,12 +56,11 @@ public class BatchStep {
 	public void user_adding_body_with_batch_name_batch_description_batch_no_of_classes(String batchst) {
 		String createModTime = commnutils.getDateISOformat();
 		String batchname = commnutils.getBatchName();
-		
-	//	Integer noofclass = commnutils.getNoOfClasses();
+		String programname = commnutils.getProgramName();
 		
 		Loggerload.debug("construct the Batch name - as per the pattern");		
-		String batchNameString = commnutils.getMonth()+commnutils.getYear()+"-NinjaTrainees-"+batchname+"-"+commnutils.getSerialNumber();
-		String batchdesc = "Learn "+batchname;
+		String batchNameString = commnutils.getMonth()+commnutils.getYear()+"-NinjaTrainees-"+programname+"-"+batchname+commnutils.getBatchNameSeries()+"-"+commnutils.getSerialNumber();
+		String batchdesc = "Learn "+programname;
 		Integer batchNumberOfClasses = commnutils.getNoOfClasses();
 		System.out.println("batchNameString : " + batchNameString);
 		System.out.println("batchNumberOfClasses : " + batchNumberOfClasses);
@@ -77,8 +76,6 @@ public class BatchStep {
 		requestbody.put("batchName", batchNameString);
 		requestbody.put("batchDescription", batchdesc);
 		requestbody.put("batchStatus", batchst);
-	//	requestbody.put("creationTime", createModTime);
-	//	requestbody.put("lastModTime", createModTime);
 		requestbody.put("batchNoOfClasses", batchNumberOfClasses);
 		requestbody.put("programId", 360);
 		
@@ -94,7 +91,6 @@ public class BatchStep {
 		switch (req) {
 		case "POST":
 			response = request.post(endpoint);
-		//	System.out.println("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			break;
 
@@ -102,7 +98,6 @@ public class BatchStep {
 			String updatedEndpoint = endpoint.replace(":BatchId", batchID.toString());
 			Loggerload.info(updatedEndpoint);
 			response = request.get(updatedEndpoint);
-		//	System.out.println("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			break;
 		default:
@@ -134,32 +129,11 @@ public class BatchStep {
 		batchNoOfClasses = jsonPathEvaluator.get("batchNoOfClasses");
 		commnutils.setBatchNoOfClasses(batchNoOfClasses);
 		Loggerload.info(batchNoOfClasses);
-	}
-	
-	@Then("User saves response for get")
-	public void user_saves_response_for_get() {
-		ResponseBody body = response.getBody();	
-		jsonPathEvaluator = response.jsonPath();
 		
-		batchID = jsonPathEvaluator.get("batchId");
-		Loggerload.info(batchID);
-		commnutils.setBatchID(batchID);
-
-		batchName = jsonPathEvaluator.get("batchName");
-		commnutils.setBatchName(batchName);
-		Loggerload.info(batchName);
-
-		batchdescription = jsonPathEvaluator.get("batchDescription");
-		Loggerload.info(batchdescription);
-		commnutils.setBatchDescription(batchdescription);
-
-		batchstatus = jsonPathEvaluator.get("batchStatus");
-		commnutils.setBatchStatus(batchstatus);
-		Loggerload.info(batchstatus);
+		programId = jsonPathEvaluator.get("programId");
+		Loggerload.info(programId);
+		commnutils.setProgramID(programId);
 		
-		batchNoOfClasses = jsonPathEvaluator.get("batchNoOfClasses");
-		commnutils.setBatchNoOfClasses(batchNoOfClasses);
-		Loggerload.info(batchNoOfClasses);
 	}
 
 	@Then("User get batch status code as {int}")
@@ -173,7 +147,7 @@ public class BatchStep {
 		Assert.assertEquals(batchdescription, expBatchdesc);
 		Assert.assertEquals(batchstatus, expBatchstatus);
 		Assert.assertEquals(batchNoOfClasses, expBatchNoOfClasses);
-	//	Assert.assertEquals(programId, expProgramId);
+		//Assert.assertEquals(programId, expProgramId);
 
 	}
 	

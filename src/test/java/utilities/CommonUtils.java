@@ -155,15 +155,22 @@ public class CommonUtils {
 		return randomnum;
 	}
 	
+	public int getBatchNameSeries() {
+		Loggerload.info("Generate random class number for batch");
+		Random rand = new Random();
+		int randomnum = rand.nextInt(100);
+		return randomnum;
+	}
 	public String getBatchName() {
 		int r = (int) (Math.random() * 4);
-		String name = new String[] { "Selenium", "Java", "Python", "API" }[r];
+		String name = new String[] { "SDET", "SMPO", "DA", "SalesForce" }[r];
 		Loggerload.debug("Return random name from the list as batch name" + name);
 		return name;
 	}
+	
 	public String constructbatchName() {
-		//Batch name pattern : Jan23-TeamName-BatchName-serial number
-		String name = this.getMonth()+this.getYear()+"-NinjaTrainees-"+this.getBatchName()+"-"+this.getSerialNumber();
+		//Batch name pattern : Jan23-TeamName-ProgramName-BatchName-serialnumber
+		String name = this.getMonth()+this.getYear()+"-NinjaTrainees-"+this.getProgramName()+"-"+this.getBatchName()+this.getBatchNameSeries()+"-"+this.getSerialNumber();
 		Loggerload.debug("construct the Batch name - as per the pattern" + name);
 		return name;
 	}
