@@ -1,5 +1,7 @@
 package utilities;
 
+import java.util.HashMap;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +22,10 @@ public class Loggerload {
 	}
 	public static void debug(String message) {
 		logger.debug(message);
+	}
+	public static void debug(HashMap<String, Object> map) {
+		logger.debug(map);
+		
 	}
 	
 
