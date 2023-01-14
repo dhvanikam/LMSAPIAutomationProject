@@ -6,6 +6,10 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 
+import io.cucumber.core.internal.com.fasterxml.jackson.core.JsonProcessingException;
+import io.cucumber.core.internal.com.fasterxml.jackson.databind.JsonMappingException;
+import io.cucumber.core.internal.com.fasterxml.jackson.databind.JsonNode;
+import io.cucumber.core.internal.com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,8 +20,8 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
-import utilities.Loggerload;
 import utilities.CommonUtils;
+import utilities.Loggerload;
 
 public class ProgramStep {
 	CommonUtils commnutils = new CommonUtils();
@@ -111,7 +115,7 @@ public class ProgramStep {
 		commnutils.setProgramStatus(programstatus);
 		Loggerload.info(programstatus);
 	}
-
+  
 	@Then("User get status code as {int}")
 	public void user_get_status_code_as(Integer int1) {
 	Assert.assertEquals(response.getStatusCode(), int1);
@@ -123,5 +127,31 @@ public class ProgramStep {
 		Assert.assertEquals(programdesc, expProgramdesc);
 		Assert.assertEquals(programstatus, expProgramstatus);
 	}
+	
+	//To Get All Programs
+	@When("{string} request is made to {string}")
+	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
+		RequestSpecification httpRequest = RestAssured.given();
+		Response allProgramsresponse = httpRequest.get("/allPrograms");
+		
+		ResponseBody body = allProgramsresponse.getBody();
+		
+		Loggerload.info("response for request to get all Programs is : " +body.asPrettyString());
+		
+		response = allProgramsresponse;
+		
+	}
+	
+	@Then("do necessary validations")
+	public void do_necessary_validations() {
+		Assert.assertNotNull(response.getBody());
+		Loggerload.info("response ContentType is : "+response.getContentType());
+		Assert.assertEquals(response.getContentType(), "application/json");
+		Loggerload.info("response statuscode : "+response.getStatusCode());
+		Assert.assertEquals(response.getStatusCode(), 200);
+		Loggerload.info("response statusline is : "+response.getStatusLine());
+		Assert.assertEquals(response.getStatusLine(), "HTTP/1.1 200 ");
+	}
+
 
 }
