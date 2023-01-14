@@ -87,9 +87,19 @@ public class ProgramStep {
 			break;
 
 		case "GET":
-			String updatedEndpoint = endpoint.replace(":ProgramId", programID.toString());
-			Loggerload.info(updatedEndpoint);
-			response = request.get(updatedEndpoint);
+			if(endpoint.contains("allPrograms"))
+			{
+				RequestSpecification httpRequest = RestAssured.given();
+				Response allProgramsresponse = httpRequest.get("/allPrograms");
+				ResponseBody body = allProgramsresponse.getBody();
+				Loggerload.info("response for request to get all Programs is : " +body.asPrettyString());
+				response = allProgramsresponse;
+				
+			}else {
+				String updatedEndpoint = endpoint.replace(":ProgramId", programID.toString());
+				Loggerload.info(updatedEndpoint);
+				response = request.get(updatedEndpoint);
+			}
 			break;
 			
 		case "PUT":
@@ -183,19 +193,7 @@ public class ProgramStep {
 	    
 	}
 
-  //To Get All Programs
-	@When("{string} request is made to {string}")
-	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
-		RequestSpecification httpRequest = RestAssured.given();
-		Response allProgramsresponse = httpRequest.get("/allPrograms");
-		
-		ResponseBody body = allProgramsresponse.getBody();
-		
-		Loggerload.info("response for request to get all Programs is : " +body.asPrettyString());
-		
-		response = allProgramsresponse;
-		
-	}
+  // ___________________User to Get All Programs________________________
 	
 	@Then("do necessary validations")
 	public void do_necessary_validations() {

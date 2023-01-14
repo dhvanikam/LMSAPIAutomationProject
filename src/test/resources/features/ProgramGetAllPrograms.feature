@@ -1,9 +1,9 @@
 @program
 Feature: Program API testing
 
-  Scenario: Get All Programs do necessary validations
+  Scenario: The user (Admin) can get All Programs do necessary validations
     Given A service with "URL" is available
-    When "GET" request is made to "Get All Programs"
+    When User make a "GET" request with endpoint "/allPrograms"
     Then do necessary validations  
     
     
