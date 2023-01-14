@@ -87,19 +87,14 @@ public class ProgramStep {
 			break;
 
 		case "GET":
-			if(endpoint.contains("allPrograms"))
-			{
-				RequestSpecification httpRequest = RestAssured.given();
-				Response allProgramsresponse = httpRequest.get("/allPrograms");
-				ResponseBody body = allProgramsresponse.getBody();
-				Loggerload.info("response for request to get all Programs is : " +body.asPrettyString());
-				response = allProgramsresponse;
-				
-			}else {
-				String updatedEndpoint = endpoint.replace(":ProgramId", programID.toString());
-				Loggerload.info(updatedEndpoint);
-				response = request.get(updatedEndpoint);
-			}
+			String updatedEndpoint = endpoint.replace(":ProgramId", programID.toString());
+			Loggerload.info(updatedEndpoint);
+			response = request.get(updatedEndpoint);
+			break;
+			
+		case "GETALLPROGRAMS":	
+				response = request.get(endpoint);
+				Loggerload.info("response for request to get all Programs is : " +response.getBody().asPrettyString());
 			break;
 			
 		case "PUT":
