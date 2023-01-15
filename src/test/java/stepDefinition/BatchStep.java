@@ -26,7 +26,8 @@ public class BatchStep {
 	private static RequestSpecification request;
 	JsonPath jsonPathEvaluator;
 
-    Integer batchID;
+    static Integer batchID;
+    static Integer programID;
 	String batchName;
 	String batchdescription;
 	String batchstatus;
@@ -124,13 +125,16 @@ public class BatchStep {
 		break;
 		
 		case "GETBATCHESBYBATCHID":
-			ResponseBody body = response.getBody();
-			jsonPathEvaluator = response.jsonPath();
-			ArrayList batchList = jsonPathEvaluator.get("batchId");
-			Loggerload.info("batchID"+batchList.get(0));
-			String batchIdEndpoint = endpoint.replace(":BatchId", batchList.get(0).toString());
+			String batchIdEndpoint = endpoint.replace(":BatchId", batchID.toString());
 			Loggerload.info(batchIdEndpoint);
 			response = request.get(batchIdEndpoint);
+			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
+			break;
+			
+		case "GETBATCHESBYPROGRAMID":
+			String programIdEndpoint = endpoint.replace(":(ProgramId)", programID.toString());
+			Loggerload.info(programIdEndpoint);
+			response = request.get(programIdEndpoint);
 			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			break;
 			
@@ -144,6 +148,10 @@ public class BatchStep {
 		ResponseBody body = response.getBody();
 		jsonPathEvaluator = response.jsonPath();
 
+		programID = jsonPathEvaluator.get("programId");
+		Loggerload.info("Response : Program ID is " + programID);
+		CommonUtils.setProgramID(programID);
+		
 		batchID = jsonPathEvaluator.get("batchId");
 		Loggerload.info(batchID);
 		commnutils.setBatchID(batchID);
