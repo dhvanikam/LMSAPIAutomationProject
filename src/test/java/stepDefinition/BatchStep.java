@@ -25,7 +25,7 @@ public class BatchStep {
 	private static RequestSpecification request;
 	JsonPath jsonPathEvaluator;
 	
-	Integer batchID;
+	static Integer batchID;
 	String batchName;
 	String batchdescription;
 	String batchstatus;
@@ -40,8 +40,8 @@ public class BatchStep {
 
 	Scenario scenario;
 	
-	@Given("A services with {string} is available")
-	public void a_services_with_is_available(String string) {
+	@Given("A service with base {string} is available")
+	public void a_service_with_base_is_available(String string) {
 		RestAssured.baseURI = BASE_URL;
 	}
 
@@ -98,6 +98,19 @@ public class BatchStep {
 			response = request.get(updatedEndpoint);
 			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			break;
+		
+		case "GETALLBATCHES":
+			response = request.get(endpoint);
+			Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
+		break;
+		
+		case "GETBATCHESBYBATCHID":
+			String batchIdEndpoint = endpoint.replace(":BatchId", batchID.toString());
+			Loggerload.info(batchIdEndpoint);
+			response = request.get(batchIdEndpoint);
+			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
+			break;
+			
 		default:
 			System.out.println("Unexpected request");
 		}
@@ -152,7 +165,20 @@ public class BatchStep {
 		Assert.assertEquals(batchstatus, expBatchstatus);
 		Assert.assertEquals(batchNoOfClasses, expBatchNoOfClasses);
 	}
+	
+	//____________________To get all batches______________________
+	
+	@Then("do validations for batch")
+	public void do_validations_for_batch() {
 
+		Assert.assertNotNull(response.getBody());
+		Loggerload.info("response ContentType is : " + response.getContentType());
+		Assert.assertEquals(response.getContentType(), "application/json");
+		Loggerload.info("response statuscode : " + response.getStatusCode());
+		Assert.assertEquals(response.getStatusCode(), 200);
+		Loggerload.info("response statusline is : " + response.getStatusLine());
+		Assert.assertEquals(response.getStatusLine(), "HTTP/1.1 200 ");
+	}
 
 
 }
