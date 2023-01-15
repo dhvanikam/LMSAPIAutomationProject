@@ -124,6 +124,14 @@ public class BatchStep {
 			Loggerload.info("Delete By Batch ID :" + bid1);
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
+			
+		case "DELETE_BatchName":
+			
+			String batchname = CommonUtils.getKeyValue("batchName").toString();
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchName)",batchname));
+			Loggerload.info("Batch Name to be Deleted :" + batchname);
+			response = request.delete(endpoint.replace(":(BatchName)", batchname));
+			break;
 		
 //		case "GETALLBATCHES":
 //			response = request.get(endpoint);
