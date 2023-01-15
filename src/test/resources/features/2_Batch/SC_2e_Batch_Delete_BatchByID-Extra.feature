@@ -1,7 +1,7 @@
 @batch
 Feature: Program API testing
 
-  @batch_delete_ByName
+  @batch_delete_ByID
   Scenario: The user (Admin) can update a batch by batch Name
     Given A service with "URL" is available
     When User makes a "DELETE" request with endpoint "batches/:(BatchId)"
