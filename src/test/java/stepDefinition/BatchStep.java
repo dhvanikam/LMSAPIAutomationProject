@@ -158,7 +158,14 @@ public class BatchStep {
 			response = request.get(endpoint.replace(":BatchId", batchID.toString()));
 			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
 			break;
-
+			
+		case "GETBATCHESBYPROGRAMID":
+			String programIdEndpoint = endpoint.replace(":(ProgramId)", CommonUtils.getkeyvalueFromMap("prgrmID").toString());
+			Loggerload.info(programIdEndpoint);
+			response = request.get(programIdEndpoint);
+			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
+			break;
+			
 		default:
 			System.out.println("Unexpected request");
 		}
