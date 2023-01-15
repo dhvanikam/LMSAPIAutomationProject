@@ -25,7 +25,7 @@ public class BatchStep {
 	private static RequestSpecification request;
 	JsonPath jsonPathEvaluator;
 
-	Integer batchID;
+	static Integer batchID;
 	String batchName;
 	String batchdescription;
 	String batchstatus;
@@ -107,19 +107,19 @@ public class BatchStep {
 			break;
 		case "DELETE":
 			String bid = CommonUtils.getKeyValue("batchID").toString();
-			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid));
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid));
 			Loggerload.info("Delete By Batch ID :" + bid);
 			response = request.delete(endpoint.replace(":(BatchId)", bid));
-			
+
 			String bid1 = CommonUtils.getKeyValue("batchID1").toString();
-			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid1));
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid1));
 			Loggerload.info("Delete By Batch ID :" + bid1);
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
 		
 		case "GETALLBATCHES":
 			response = request.get(endpoint);
-			Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
+			//Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
 		break;
 		
 		case "GETBATCHESBYBATCHID":
@@ -196,6 +196,7 @@ public class BatchStep {
 		Assert.assertEquals(response.getStatusCode(), 200);
 		Loggerload.info("response statusline is : " + response.getStatusLine());
 		Assert.assertEquals(response.getStatusLine(), "HTTP/1.1 200 ");
+	}
 
     @Then("Validate necessary fields in response")
 	public void validate_necessary_fields_in_response() {
