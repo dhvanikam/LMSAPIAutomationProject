@@ -6,9 +6,6 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 
-import io.cucumber.core.internal.com.fasterxml.jackson.core.JsonProcessingException;
-import io.cucumber.core.internal.com.fasterxml.jackson.databind.JsonMappingException;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -39,8 +36,6 @@ public class ProgramStep {
 	static String expProgramdesc;
 	static String expProgramstatus;
 
-	Scenario scenario;
-
 	@Given("A service with {string} is available")
 	public void a_service_with_is_available(String string) {
 		RestAssured.baseURI = BASE_URL;
@@ -58,11 +53,9 @@ public class ProgramStep {
 	public void user_add_body_with_and(String prgmst, String pname, String prgdesc) {
 		Loggerload.info("User add body with " + prgmst + ", " + pname + " and " + prgdesc);
 		createModTime = commnutils.getDateISOformat();
-		// String pname = commnutils.getProgramName();
 		Loggerload.debug("construct the Program name - as per the pattern");
 		String programNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + pname + "-"
 				+ commnutils.getSerialNumber();
-		// String prgdesc = "Learn " + pname;
 
 		expProgramname = programNameString;
 		expProgramdesc = prgdesc;
@@ -91,40 +84,37 @@ public class ProgramStep {
 			break;
 
 		case "GET":
-			String updatedEndpoint = endpoint.replace(":ProgramId", programID.toString());
-			Loggerload.info(updatedEndpoint);
-			response = request.get(updatedEndpoint);
+			Loggerload.info(endpoint.replace(":ProgramId", programID.toString()));
+			response = request.get(endpoint.replace(":ProgramId", programID.toString()));
 			break;
 
 		case "GETALLPROGRAMS":
 			response = request.get(endpoint);
-			Loggerload.info("response for request to get all Programs is : " + response.getBody().asPrettyString());
+			// Loggerload.info("response for request to get all Programs is : " +
+			// response.getBody().asPrettyString());
 			break;
 
 		case "PUT":
-
-			String pname = CommonUtils.getKeyValue("prgrmName").toString();
+			String pname = CommonUtils.getkeyvalueFromMap("prgrmName").toString();
 			Loggerload.info("Update By Program Name :" + pname);
-			String updatedEndpoint2 = endpoint.replace(":(ProgramName)", pname);
-			Loggerload.info(updatedEndpoint2);
-			response = request.put(updatedEndpoint2);
+			Loggerload.info(endpoint.replace(":(ProgramName)", pname));
+			response = request.put(endpoint.replace(":(ProgramName)", pname));
 			break;
 
 		case "PUT for PID":
-			String pid2 = CommonUtils.getKeyValue("prgrmID1").toString();
+			String pid2 = CommonUtils.getkeyvalueFromMap("prgrmID1").toString();
 			Loggerload.info("Update By Program ID :" + pid2);
-			String updatedEndpoint5 = endpoint.replace(":ProgramID", pid2);
-			Loggerload.info(updatedEndpoint5);
-			response = request.put(updatedEndpoint5);
+			Loggerload.info(endpoint.replace(":ProgramID", pid2));
+			response = request.put(endpoint.replace(":ProgramID", pid2));
 			break;
 
 		case "DELETE":
-			String pid = CommonUtils.getKeyValue("prgrmID").toString();
+			String pid = CommonUtils.getkeyvalueFromMap("prgrmID").toString();
 			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(ProgramID)", pid));
 			Loggerload.info("Delete By Program ID :" + pid);
 			response = request.delete(endpoint.replace(":(ProgramID)", pid));
 
-			String pid1 = CommonUtils.getKeyValue("prgrmID1").toString();
+			String pid1 = CommonUtils.getkeyvalueFromMap("prgrmID1").toString();
 			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(ProgramID)", pid1));
 			Loggerload.info("Delete By Program ID :" + pid1);
 			response = request.delete(endpoint.replace(":(ProgramID)", pid1));
@@ -142,18 +132,18 @@ public class ProgramStep {
 
 		programID = jsonPathEvaluator.get("programId");
 		Loggerload.info("Response : Program ID is " + programID);
-		CommonUtils.setProgramID(programID);
-
+		CommonUtils.setkeyvalueIntMap("prgrmID", programID);
+		
 		programName = jsonPathEvaluator.get("programName");
-		CommonUtils.setProgramName(programName);
+		CommonUtils.setkeyvalueStringMap("prgrmName", programName);
 		Loggerload.info("Response : Program Name is " + programName);
 
 		programdesc = jsonPathEvaluator.get("programDescription");
 		Loggerload.info("Response : Program Description is " + programdesc);
-		CommonUtils.setProgramDesc(programdesc);
-
+		CommonUtils.setkeyvalueStringMap("programDescription", programName);
+		
 		programstatus = jsonPathEvaluator.get("programStatus");
-		CommonUtils.setProgramStatus(programstatus);
+		CommonUtils.setkeyvalueStringMap("programStatus", programName);
 		Loggerload.info("Response : Program Status is " + programstatus);
 	}
 
@@ -169,7 +159,7 @@ public class ProgramStep {
 		Assert.assertEquals(programstatus, expProgramstatus);
 	}
 
-//_____________User update Program by ProgramName_____________________________
+//*********************Program PUT By ProgramName***********************/
 
 	@SuppressWarnings("unchecked")
 	@When("User add body with new program name and program description")
@@ -180,10 +170,7 @@ public class ProgramStep {
 		String programNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + pname + "-"
 				+ commnutils.getSerialNumber();
 		String prgdesc = "Study " + pname;
-		String status = CommonUtils.getKeyValue("programStatus").toString();
-
-//		String newPrgmname = programNameString;
-//		String newPrgmnameexpProgramdesc = prgdesc;
+		String status = CommonUtils.getkeyvalueFromMap("programStatus").toString();
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		JSONObject requestbody = new JSONObject(map);
@@ -201,20 +188,7 @@ public class ProgramStep {
 
 	}
 
-	// To Get All Programs
-//	@When("{string} request is made to {string}")
-//	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
-//		RequestSpecification httpRequest = RestAssured.given();
-//		Response allProgramsresponse = httpRequest.get("/allPrograms");
-//
-//		ResponseBody body = allProgramsresponse.getBody();
-//
-//		// Loggerload.debug("response for request to get all Programs is : " +
-//		// body.asPrettyString());
-//
-//		response = allProgramsresponse;
-//
-//	}
+	// *********************Program Get All***********************/
 
 	@Then("do necessary validations")
 	public void do_necessary_validations() {
@@ -227,10 +201,33 @@ public class ProgramStep {
 		Assert.assertEquals(response.getStatusLine(), "HTTP/1.1 200 ");
 	}
 
+	// *********************Program Invalid cases***********************/
+
 	@When("User make a {string} request with endpoint {string} with invalid param {string}")
 	public void user_make_a_request_with_endpoint_with_invalid_param(String string, String endpoint, String pname) {
 		Loggerload.info("Update By Program Name :" + pname);
 		response = request.put(endpoint.replace(":(ProgramName)", pname));
+	}
+
+	@SuppressWarnings("unchecked")
+	@When("User add body only with {string}")
+	public void user_add_body_only_with(String pname) {
+		Loggerload.info("User add body with " + pname);
+		createModTime = commnutils.getDateISOformat();
+
+		Loggerload.debug("construct the Program name - as per the pattern");
+		String programNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + pname + "-"
+				+ commnutils.getSerialNumber();
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject requestbody = new JSONObject(map);
+
+		requestbody.put("programName", programNameString);
+		requestbody.put("creationTime", createModTime);
+		requestbody.put("lastModTime", createModTime);
+
+		Loggerload.debug(requestbody.toJSONString());
+		request.body(requestbody.toJSONString());
 	}
 
 }
