@@ -131,6 +131,36 @@ public class ProgramStep {
 			break;
 
 		case "PUT":
+
+		    String pname=commnutils.getKeyValue("prgrmName").toString();
+		    Loggerload.info("Update By Program Name :"+pname);
+            String updatedEndpoint2 = endpoint.replace(":(ProgramName)",pname);
+            Loggerload.info(updatedEndpoint2);
+			response = request.put(updatedEndpoint2);
+            break;
+            
+		case "PUT for PID":
+			String pid2=commnutils.getKeyValue("prgrmID1").toString();
+			Loggerload.info("Update By Program ID :"+pid2);
+			String updatedEndpoint5 = endpoint.replace(":ProgramID",pid2);
+			Loggerload.info(updatedEndpoint5);
+			response = request.put(updatedEndpoint5);
+			break;
+			
+			
+            
+		case "DELETE":
+			String pid=commnutils.getKeyValue("prgrmID").toString();
+		    Loggerload.info("Delete By Program ID :"+pid);
+		    String updatedEndpoint3 = endpoint.replace(":(ProgramID)", pid);
+			Loggerload.info(updatedEndpoint3);
+			response = request.delete(updatedEndpoint3);
+			String pid1=commnutils.getKeyValue("prgrmID1").toString();
+		    Loggerload.info("Delete By Program ID :"+pid1);
+		    String updatedEndpoint4 = endpoint.replace(":(ProgramID)", pid1);
+			Loggerload.info(updatedEndpoint4);
+			response = request.delete(updatedEndpoint4);
+
 			String pname = CommonUtils.getKeyValue("prgrmName").toString();
 			Loggerload.info("User do PUT request with endpoint: " +endpoint.replace(":(ProgramName)", pname));
 			Loggerload.info("Program Name to be updated:" + pname);
