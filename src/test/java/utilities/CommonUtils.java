@@ -23,51 +23,36 @@ public class CommonUtils {
 	}
 
 	public int getSerialNumber() {
-		Loggerload.info("Generate random serial number");
+		
 		Random rand = new Random();
 		int randomnum = rand.nextInt(100);
+		Loggerload.debug("Generate random serial number" +randomnum);
 		return randomnum;
 	}
 
-	public static void setProgramID(Integer prm) {
+	public static void setkeyvalueIntMap(String key,Integer value) {
 
-		if (map.containsKey("prgrmID")) {
-			map.put("prgrmID1", prm);
+		if (map.containsKey(key)) {
+			map.put(key+"1", value);
 		} else {
-			map.put("prgrmID", prm);
+			map.put(key, value);
 		}
-		Loggerload.debug("Adding program ID to map" + map);
+		Loggerload.debug("Adding "+key+" and value "+value+"to map");
+		Loggerload.debug(map);
+	}
+	
+	public static void setkeyvalueStringMap(String key,String value) {
+
+		if (map.containsKey(key)) {
+			map.put(key+"1", value);
+		} else {
+			map.put(key, value);
+		}
+		Loggerload.debug("Adding "+key+" and value "+value+"to map" );
+		Loggerload.debug(map);
 	}
 
-	public static void setProgramName(String prmname) {
-
-		if (map.containsKey("prgrmName")) {
-			map.put("prgrmName1", prmname);
-		} else {
-			map.put("prgrmName", prmname);
-		}
-		Loggerload.debug("Adding program Name to map " + map);
-	}
-
-	public static void setProgramDesc(String programdesc) {
-		if (map.containsKey("programDescription")) {
-			map.put("programDescription1", programdesc);
-		} else {
-			map.put("programDescription", programdesc);
-		}
-		Loggerload.debug("Adding program description to map " + map);
-	}
-
-	public static void setProgramStatus(String programstatus) {
-		if (map.containsKey("programStatus")) {
-			map.put("programStatus1", programstatus);
-		} else {
-			map.put("programStatus", programstatus);
-		}
-		Loggerload.debug("Adding program status to map " + map);
-	}
-
-	public static Object getKeyValue(String key) {
+	public static Object getkeyvalueFromMap(String key) {
 		if (map.containsKey(key)) {
 			return map.get(key);
 		}
@@ -103,67 +88,22 @@ public class CommonUtils {
 		Loggerload.debug("construct the Program name - as per the pattern" + name);
 		return name;
 	}
-//Batch
 	
-	public void setBatchID(Integer batch) {
-
-		if (map.containsKey("batchID")) {
-			map.put("batchID1", batch);
-		} else {
-			map.put("batchID", batch);
-		}
-		Loggerload.debug("Adding batch ID to map " + map);
-	}
-	
-	public void setBatchName(String batchname) {
-
-		if (map.containsKey("batchName")) {
-			map.put("batchName1", batchname);
-		} else {
-			map.put("batchName", batchname);
-		}
-		Loggerload.debug("Adding batch Name to map " + map);
-	}
-	
-	public void setBatchDescription(String batchdesc) {
-		if (map.containsKey("batchDescription")) {
-			map.put("batchDescription1", batchdesc);
-		} else {
-			map.put("batchDescription", batchdesc);
-		}
-		Loggerload.debug("Adding batch description to map " + map);
-	}
-	
-	public void setBatchStatus(String batchstatus) {
-		if (map.containsKey("batchStatus")) {
-			map.put("batchStatus1", batchstatus);
-		} else {
-			map.put("batchStatus", batchstatus);
-		}
-		Loggerload.debug("Adding program status to map " + map);
-	}
-	
-	public void setBatchNoOfClasses(Integer batchnoofclass) {
-
-		if (map.containsKey("BatchNoOfClasses")) {
-			map.put("BatchNoOfClasses1", batchnoofclass);
-		} else {
-			map.put("BatchNoOfClasses", batchnoofclass);
-		}
-		Loggerload.debug("Adding program ID to map" + map);
-	}
+	//Batch
 	
 	public int getNoOfClasses() {
-		Loggerload.info("Generate random class number for batch");
+
 		Random rand = new Random();
 		int randomnum = rand.nextInt(100);
+		Loggerload.debug("Generate random class number for batch");
 		return randomnum;
 	}
 	
 	public int getBatchNameSeries() {
-		Loggerload.info("Generate random class number for batch");
+		
 		Random rand = new Random();
 		int randomnum = rand.nextInt(100);
+		Loggerload.debug("Generate random class number for batch series");
 		return randomnum;
 	}
 	public String getBatchName() {
@@ -174,7 +114,7 @@ public class CommonUtils {
 	}
 	
 	public String constructbatchName() {
-		//Batch name pattern : Jan23-TeamName-ProgramName-BatchName-serialnumber
+		/*Batch name pattern : Jan23-TeamName-ProgramName-BatchName-serialnumber*/
 		String name = this.getMonth()+this.getYear()+"-NinjaTrainees-"+this.getProgramName()+"-"+this.getBatchName()+this.getBatchNameSeries()+"-"+this.getSerialNumber();
 		Loggerload.debug("construct the Batch name - as per the pattern" + name);
 		return name;

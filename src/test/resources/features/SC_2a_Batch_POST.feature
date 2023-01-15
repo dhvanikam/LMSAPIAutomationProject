@@ -21,3 +21,27 @@ Feature: Batch API Testing for LMS Batch module
       | batchStatus |
       | "Active"    |
       | "Active"    |
+
+  @batch_post_404
+  Scenario Outline: The user get 404 response code for invalid path
+    Given A service with "URL" is available
+    And User set the header
+    When User adding body with batch name, batch description, batch no of classes <batchStatus>
+    And User make a "POST" request with endpoint "/batchesinvalid"
+    Then User get status code as 404
+
+     Examples: 
+      | batchStatus |
+      | "Active"    |
+
+  @batch_post_400
+  Scenario Outline: The user get 400 response code for invalid body 
+    Given A service with "URL" is available
+    And User set the header
+    When User add body only with <batchName>
+    And User make a "POST" request with endpoint "/batches"
+    Then User get status code as 400
+
+    Examples: 
+      | batchName |
+      | "SDET05"  |
