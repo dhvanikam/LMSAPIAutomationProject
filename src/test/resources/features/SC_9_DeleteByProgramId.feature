@@ -5,4 +5,3 @@ Feature: Program API testing
     Given A service with "URL" is available
     When User make a "DELETE" request with endpoint "/deletebyprogid/:(ProgramID)"
     Then User get status code as 200
-  

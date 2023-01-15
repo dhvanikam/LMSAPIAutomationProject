@@ -53,33 +53,6 @@ public class ProgramStep {
 		Loggerload.info("User set the header");
 	}
 
-//	@When("User add body with program name, program description and {string}")
-//	public void user_add_body_with_program_name_program_description_and(String prgmst) {
-//		Loggerload.info("User set the header");
-//		createModTime = commnutils.getDateISOformat();
-//		String pname = commnutils.getProgramName();
-//		Loggerload.debug("construct the Program name - as per the pattern");
-//		String programNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + pname + "-"
-//				+ commnutils.getSerialNumber();
-//		String prgdesc = "Learn " + pname;
-//
-//		expProgramname = programNameString;
-//		expProgramdesc = prgdesc;
-//		expProgramstatus = prgmst;
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		JSONObject requestbody = new JSONObject(map);
-//
-//		requestbody.put("programName", programNameString);
-//		requestbody.put("programDescription", prgdesc);
-//		requestbody.put("programStatus", prgmst);
-//		requestbody.put("creationTime", createModTime);
-//		requestbody.put("lastModTime", createModTime);
-//
-//		Loggerload.debug(requestbody.toJSONString());
-//		request.body(requestbody.toJSONString());
-//	}
-
 	@SuppressWarnings("unchecked")
 	@When("User add body with {string}, {string} and {string}")
 	public void user_add_body_with_and(String prgmst, String pname, String prgdesc) {
@@ -131,10 +104,20 @@ public class ProgramStep {
 			break;
 
 		case "PUT":
-			String pname = CommonUtils.getKeyValue("prgrmName").toString();
-			Loggerload.info("User do PUT request with endpoint: " +endpoint.replace(":(ProgramName)", pname));
-			Loggerload.info("Program Name to be updated:" + pname);
-			response = request.put(endpoint.replace(":(ProgramName)", pname));
+
+		    String pname=commnutils.getKeyValue("prgrmName").toString();
+		    Loggerload.info("Update By Program Name :"+pname);
+            String updatedEndpoint2 = endpoint.replace(":(ProgramName)",pname);
+            Loggerload.info(updatedEndpoint2);
+			response = request.put(updatedEndpoint2);
+            break;
+            
+		case "PUT for PID":
+			String pid2=commnutils.getKeyValue("prgrmID1").toString();
+			Loggerload.info("Update By Program ID :"+pid2);
+			String updatedEndpoint5 = endpoint.replace(":ProgramID",pid2);
+			Loggerload.info(updatedEndpoint5);
+			response = request.put(updatedEndpoint5);
 			break;
 
 		case "DELETE":
@@ -229,7 +212,7 @@ public class ProgramStep {
 
 		ResponseBody body = allProgramsresponse.getBody();
 
-		Loggerload.debug("response for request to get all Programs is : " + body.asPrettyString());
+		//Loggerload.debug("response for request to get all Programs is : " + body.asPrettyString());
 
 		response = allProgramsresponse;
 

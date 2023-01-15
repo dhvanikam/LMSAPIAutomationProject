@@ -3,7 +3,6 @@ package appHooks;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import utilities.ConfigReader;
 import utilities.Loggerload;
 
 public class Hooks {

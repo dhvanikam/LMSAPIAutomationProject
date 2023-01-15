@@ -1,4 +1,4 @@
-@batch
+@batch_post
 Feature: Batch API Testing for LMS Batch module
   Description: The user (Admin) is able to create two different batches and able to retrieve specific batch based on Batch ID
 
