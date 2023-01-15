@@ -68,9 +68,14 @@ public class CommonUtils {
 	}
 
 	public static Object getKeyValue(String key) {
+		if (map.containsKey(key)) {
+			return map.get(key);
+		}
+		else {
+			Loggerload.debug(key + "Does not exist");
+		}
 		Loggerload.debug("Return Key value from map " + map);
 		return map.get(key);
-		
 	}
 
 	public String getYear() {
