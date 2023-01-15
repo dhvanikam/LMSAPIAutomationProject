@@ -18,7 +18,6 @@ import utilities.CommonUtils;
 import utilities.Loggerload;
 
 public class BatchStep {
-//	ProgramStep ps= new ProgramStep();
 	CommonUtils commnutils = new CommonUtils();
 
 	private static final String BASE_URL = "https://lms-backend-service.herokuapp.com/lms";
@@ -31,7 +30,7 @@ public class BatchStep {
 	String batchdescription;
 	String batchstatus;
 	Integer batchNoOfClasses;
-	Integer programId=360;
+
 
 	static String expBatchname;
 	static String expBatchdesc;
@@ -54,7 +53,6 @@ public class BatchStep {
 	
 	@When("User adding body with batch name, batch description, batch no of classes {string}")
 	public void user_adding_body_with_batch_name_batch_description_batch_no_of_classes(String batchst) {
-		String createModTime = commnutils.getDateISOformat();
 		String batchname = commnutils.getBatchName();
 		String programname = commnutils.getProgramName();
 		
@@ -77,7 +75,7 @@ public class BatchStep {
 		requestbody.put("batchDescription", batchdesc);
 		requestbody.put("batchStatus", batchst);
 		requestbody.put("batchNoOfClasses", batchNumberOfClasses);
-		requestbody.put("programId", 360);
+		requestbody.put("programId",2626 );//CommonUtils.getKeyValue("prgrmID").toString()
 		
 		Loggerload.debug(requestbody.toJSONString());
 		System.out.println("requestbody : "+requestbody);
@@ -129,10 +127,6 @@ public class BatchStep {
 		batchNoOfClasses = jsonPathEvaluator.get("batchNoOfClasses");
 		commnutils.setBatchNoOfClasses(batchNoOfClasses);
 		Loggerload.info(batchNoOfClasses);
-		
-		programId = jsonPathEvaluator.get("programId");
-		Loggerload.info(programId);
-		commnutils.setProgramID(programId);
 		
 	}
 
