@@ -98,6 +98,16 @@ public class ProgramStep {
 			response = request.put(updatedEndpoint2);
             break;
             
+		case "PUT for PID":
+			String pid2=commnutils.getKeyValue("prgrmID1").toString();
+			Loggerload.info("Update By Program ID :"+pid2);
+			String updatedEndpoint5 = endpoint.replace(":ProgramID",pid2);
+			Loggerload.info(updatedEndpoint5);
+			response = request.put(updatedEndpoint5);
+			break;
+			
+			
+            
 		case "DELETE":
 			String pid=commnutils.getKeyValue("prgrmID").toString();
 		    Loggerload.info("Delete By Program ID :"+pid);
