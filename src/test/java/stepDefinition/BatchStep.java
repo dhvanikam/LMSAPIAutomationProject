@@ -46,7 +46,7 @@ public class BatchStep {
 
 	@Given("User sets the header")
 	public void user_sets_the_header() {
-		request = RestAssured.given().relaxedHTTPSValidation().contentType(ContentType.JSON).accept(ContentType.JSON);
+		request = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -75,7 +75,7 @@ public class BatchStep {
 		requestbody.put("batchDescription", batchdesc);
 		requestbody.put("batchStatus", batchst);
 		requestbody.put("batchNoOfClasses", batchNumberOfClasses);
-		requestbody.put("programId", 2626);// CommonUtils.getKeyValue("prgrmID").toString()
+		requestbody.put("programId", CommonUtils.getKeyValue("prgrmID").toString());// CommonUtils.getKeyValue("prgrmID").toString()
 
 		Loggerload.debug(requestbody.toJSONString());
 		System.out.println("requestbody : " + requestbody);
@@ -104,7 +104,7 @@ public class BatchStep {
 			Loggerload.info("User do PUT request with endpoint: " + endpoint.replace(":(BatchName)", bname));
 			Loggerload.info("Batch Name to be updated:" + bname);
 			response = request.put(endpoint.replace(":(BatchName)", bname));
-			
+			break;
 		case "DELETE":
 			String bid = CommonUtils.getKeyValue("batchID").toString();
 			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid));
