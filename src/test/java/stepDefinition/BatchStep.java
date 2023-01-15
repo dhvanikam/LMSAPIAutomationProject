@@ -105,6 +105,14 @@ public class BatchStep {
 			Loggerload.info("Batch Name to be updated:" + bname);
 			response = request.put(endpoint.replace(":(BatchName)", bname));
 			break;
+			
+		case "PUT_ByID":
+			String batchid = CommonUtils.getKeyValue("batchID").toString();
+			Loggerload.info("User do PUT request with endpoint: " + endpoint.replace(":(BatchId)", batchid));
+			Loggerload.info("Batch ID to be updated:" + batchid);
+			response = request.put(endpoint.replace(":(BatchId)", batchid));
+			break;
+			
 		case "DELETE":
 			String bid = CommonUtils.getKeyValue("batchID").toString();
 			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid));
@@ -117,11 +125,11 @@ public class BatchStep {
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
 		
-		case "GETALLBATCHES":
-			response = request.get(endpoint);
-			//Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
-		break;
-		
+//		case "GETALLBATCHES":
+//			response = request.get(endpoint);
+//			//Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
+//		break;
+//		
 		case "GETBATCHESBYBATCHID":
 			String batchIdEndpoint = endpoint.replace(":BatchId", batchID.toString());
 			Loggerload.info(batchIdEndpoint);
