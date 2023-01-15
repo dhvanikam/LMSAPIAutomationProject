@@ -100,7 +100,7 @@ public class ProgramStep {
 			
 		case "GETALLPROGRAMS":	
 				response = request.get(endpoint);
-				Loggerload.info("response for request to get all Programs is : " +response.getBody().asPrettyString());
+//				Loggerload.info("response for request to get all Programs is : " +response.getBody().asPrettyString());
 			break;
 
 		case "PUT":

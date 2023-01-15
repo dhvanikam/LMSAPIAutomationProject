@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class BatchStep {
 	private static RequestSpecification request;
 	JsonPath jsonPathEvaluator;
 
-	Integer batchID;
+    Integer batchID;
 	String batchName;
 	String batchdescription;
 	String batchstatus;
@@ -119,11 +120,15 @@ public class BatchStep {
 		
 		case "GETALLBATCHES":
 			response = request.get(endpoint);
-			Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
+//			Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
 		break;
 		
 		case "GETBATCHESBYBATCHID":
-			String batchIdEndpoint = endpoint.replace(":BatchId", batchID.toString());
+			ResponseBody body = response.getBody();
+			jsonPathEvaluator = response.jsonPath();
+			ArrayList batchList = jsonPathEvaluator.get("batchId");
+			Loggerload.info("batchID"+batchList.get(0));
+			String batchIdEndpoint = endpoint.replace(":BatchId", batchList.get(0).toString());
 			Loggerload.info(batchIdEndpoint);
 			response = request.get(batchIdEndpoint);
 			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
@@ -196,6 +201,7 @@ public class BatchStep {
 		Assert.assertEquals(response.getStatusCode(), 200);
 		Loggerload.info("response statusline is : " + response.getStatusLine());
 		Assert.assertEquals(response.getStatusLine(), "HTTP/1.1 200 ");
+	}
 
     @Then("Validate necessary fields in response")
 	public void validate_necessary_fields_in_response() {
