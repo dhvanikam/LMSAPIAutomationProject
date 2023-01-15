@@ -108,19 +108,19 @@ public class BatchStep {
 			break;
 		case "DELETE":
 			String bid = CommonUtils.getKeyValue("batchID").toString();
-			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid));
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid));
 			Loggerload.info("Delete By Batch ID :" + bid);
 			response = request.delete(endpoint.replace(":(BatchId)", bid));
-			
+
 			String bid1 = CommonUtils.getKeyValue("batchID1").toString();
-			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid1));
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid1));
 			Loggerload.info("Delete By Batch ID :" + bid1);
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
 		
 		case "GETALLBATCHES":
 			response = request.get(endpoint);
-//			Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
+			//Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
 		break;
 		
 		case "GETBATCHESBYBATCHID":
@@ -253,6 +253,10 @@ public class BatchStep {
 
 	}
 
-	
+	@When("User makes a {string} request with endpoint {string} with invalid param {string}")
+	public void user_makes_a_request_with_endpoint_with_invalid_param(String string, String endpoint, String bname) {
+		Loggerload.info("Update By Program Name :" + bname);
+		response = request.put(endpoint.replace(":(ProgramName)", bname));
+	}
 
 }

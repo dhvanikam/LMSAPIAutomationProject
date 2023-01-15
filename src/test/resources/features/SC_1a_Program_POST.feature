@@ -2,6 +2,7 @@
 Feature: Rest API testing for LMS Program module
   Description: The user (Admin) is able to create two different programs and able to retrieve specific program based on Program ID
 
+	@program_post
   Scenario Outline: The user (Admin) can create different programs : <programName>
     Given A service with "URL" is available
     And User set the header

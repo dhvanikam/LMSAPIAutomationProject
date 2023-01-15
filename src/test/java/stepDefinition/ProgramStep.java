@@ -6,8 +6,6 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 
-import io.cucumber.core.internal.com.fasterxml.jackson.core.JsonProcessingException;
-import io.cucumber.core.internal.com.fasterxml.jackson.databind.JsonMappingException;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -44,7 +42,7 @@ public class ProgramStep {
 	@Given("A service with {string} is available")
 	public void a_service_with_is_available(String string) {
 		RestAssured.baseURI = BASE_URL;
-		Loggerload.info("A service with "+BASE_URL+" is available");
+		Loggerload.info("A service with " + BASE_URL + " is available");
 	}
 
 	@Given("User set the header")
@@ -56,13 +54,13 @@ public class ProgramStep {
 	@SuppressWarnings("unchecked")
 	@When("User add body with {string}, {string} and {string}")
 	public void user_add_body_with_and(String prgmst, String pname, String prgdesc) {
-		Loggerload.info("User add body with "+prgmst+", "+pname+" and "+prgdesc);
+		Loggerload.info("User add body with " + prgmst + ", " + pname + " and " + prgdesc);
 		createModTime = commnutils.getDateISOformat();
-		//String pname = commnutils.getProgramName();
+		// String pname = commnutils.getProgramName();
 		Loggerload.debug("construct the Program name - as per the pattern");
 		String programNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + pname + "-"
 				+ commnutils.getSerialNumber();
-		//String prgdesc = "Learn " + pname;
+		// String prgdesc = "Learn " + pname;
 
 		expProgramname = programNameString;
 		expProgramdesc = prgdesc;
@@ -81,11 +79,9 @@ public class ProgramStep {
 		request.body(requestbody.toJSONString());
 	}
 
-
-
 	@When("User make a {string} request with endpoint {string}")
 	public void user_make_a_request_with_endpoint(String req, String endpoint) {
-		System.out.println("endpoint : "+endpoint);
+		System.out.println("endpoint : " + endpoint);
 
 		switch (req) {
 		case "POST":
@@ -100,34 +96,34 @@ public class ProgramStep {
 			
 		case "GETALLPROGRAMS":	
 				response = request.get(endpoint);
-//				Loggerload.info("response for request to get all Programs is : " +response.getBody().asPrettyString());
+				//Loggerload.info("response for request to get all Programs is : " +response.getBody().asPrettyString());
 			break;
 
 		case "PUT":
 
-		    String pname=commnutils.getKeyValue("prgrmName").toString();
-		    Loggerload.info("Update By Program Name :"+pname);
-            String updatedEndpoint2 = endpoint.replace(":(ProgramName)",pname);
-            Loggerload.info(updatedEndpoint2);
+			String pname = CommonUtils.getKeyValue("prgrmName").toString();
+			Loggerload.info("Update By Program Name :" + pname);
+			String updatedEndpoint2 = endpoint.replace(":(ProgramName)", pname);
+			Loggerload.info(updatedEndpoint2);
 			response = request.put(updatedEndpoint2);
-            break;
-            
+			break;
+
 		case "PUT for PID":
-			String pid2=commnutils.getKeyValue("prgrmID1").toString();
-			Loggerload.info("Update By Program ID :"+pid2);
-			String updatedEndpoint5 = endpoint.replace(":ProgramID",pid2);
+			String pid2 = CommonUtils.getKeyValue("prgrmID1").toString();
+			Loggerload.info("Update By Program ID :" + pid2);
+			String updatedEndpoint5 = endpoint.replace(":ProgramID", pid2);
 			Loggerload.info(updatedEndpoint5);
 			response = request.put(updatedEndpoint5);
 			break;
 
 		case "DELETE":
 			String pid = CommonUtils.getKeyValue("prgrmID").toString();
-			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(ProgramID)", pid));
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(ProgramID)", pid));
 			Loggerload.info("Delete By Program ID :" + pid);
 			response = request.delete(endpoint.replace(":(ProgramID)", pid));
-			
+
 			String pid1 = CommonUtils.getKeyValue("prgrmID1").toString();
-			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(ProgramID)", pid1));
+			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(ProgramID)", pid1));
 			Loggerload.info("Delete By Program ID :" + pid1);
 			response = request.delete(endpoint.replace(":(ProgramID)", pid1));
 			break;
@@ -173,7 +169,6 @@ public class ProgramStep {
 
 //_____________User update Program by ProgramName_____________________________
 
-	
 	@SuppressWarnings("unchecked")
 	@When("User add body with new program name and program description")
 	public void user_add_body_with_new_program_name_and_program_description() {
@@ -205,18 +200,19 @@ public class ProgramStep {
 	}
 
 	// To Get All Programs
-	@When("{string} request is made to {string}")
-	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
-		RequestSpecification httpRequest = RestAssured.given();
-		Response allProgramsresponse = httpRequest.get("/allPrograms");
-
-		ResponseBody body = allProgramsresponse.getBody();
-
-		//Loggerload.debug("response for request to get all Programs is : " + body.asPrettyString());
-
-		response = allProgramsresponse;
-
-	}
+//	@When("{string} request is made to {string}")
+//	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
+//		RequestSpecification httpRequest = RestAssured.given();
+//		Response allProgramsresponse = httpRequest.get("/allPrograms");
+//
+//		ResponseBody body = allProgramsresponse.getBody();
+//
+//		// Loggerload.debug("response for request to get all Programs is : " +
+//		// body.asPrettyString());
+//
+//		response = allProgramsresponse;
+//
+//	}
 
 	@Then("do necessary validations")
 	public void do_necessary_validations() {

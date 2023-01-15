@@ -1,9 +1,8 @@
-@batch_delete
+@batch
 Feature: Program API testing
 
-  Scenario: The user (Admin) can update a program by Program Name
+  @batch_delete_ByName
+  Scenario: The user (Admin) can update a batch by batch Name
     Given A service with "URL" is available
     When User makes a "DELETE" request with endpoint "batches/:(BatchId)"
     Then User gets status code as 200
-    
-	
