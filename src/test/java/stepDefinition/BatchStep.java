@@ -248,6 +248,10 @@ public class BatchStep {
 
 	}
 
-	
+	@When("User makes a {string} request with endpoint {string} with invalid param {string}")
+	public void user_makes_a_request_with_endpoint_with_invalid_param(String string, String endpoint, String bname) {
+		Loggerload.info("Update By Program Name :" + bname);
+		response = request.put(endpoint.replace(":(ProgramName)", bname));
+	}
 
 }

@@ -103,7 +103,7 @@ public class ProgramStep {
 
 		case "PUT":
 
-			String pname = commnutils.getKeyValue("prgrmName").toString();
+			String pname = CommonUtils.getKeyValue("prgrmName").toString();
 			Loggerload.info("Update By Program Name :" + pname);
 			String updatedEndpoint2 = endpoint.replace(":(ProgramName)", pname);
 			Loggerload.info(updatedEndpoint2);
@@ -111,7 +111,7 @@ public class ProgramStep {
 			break;
 
 		case "PUT for PID":
-			String pid2 = commnutils.getKeyValue("prgrmID1").toString();
+			String pid2 = CommonUtils.getKeyValue("prgrmID1").toString();
 			Loggerload.info("Update By Program ID :" + pid2);
 			String updatedEndpoint5 = endpoint.replace(":ProgramID", pid2);
 			Loggerload.info(updatedEndpoint5);
@@ -202,19 +202,19 @@ public class ProgramStep {
 	}
 
 	// To Get All Programs
-	@When("{string} request is made to {string}")
-	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
-		RequestSpecification httpRequest = RestAssured.given();
-		Response allProgramsresponse = httpRequest.get("/allPrograms");
-
-		ResponseBody body = allProgramsresponse.getBody();
-
-		// Loggerload.debug("response for request to get all Programs is : " +
-		// body.asPrettyString());
-
-		response = allProgramsresponse;
-
-	}
+//	@When("{string} request is made to {string}")
+//	public void request_is_made_to(String string, String string2) throws JsonMappingException, JsonProcessingException {
+//		RequestSpecification httpRequest = RestAssured.given();
+//		Response allProgramsresponse = httpRequest.get("/allPrograms");
+//
+//		ResponseBody body = allProgramsresponse.getBody();
+//
+//		// Loggerload.debug("response for request to get all Programs is : " +
+//		// body.asPrettyString());
+//
+//		response = allProgramsresponse;
+//
+//	}
 
 	@Then("do necessary validations")
 	public void do_necessary_validations() {
