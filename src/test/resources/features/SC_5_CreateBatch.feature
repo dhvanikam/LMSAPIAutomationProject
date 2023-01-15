@@ -1,8 +1,8 @@
 @tag
-Feature: Batch API Testing for LMS Program module
+Feature: Batch API Testing for LMS Batch module
   Description: The user (Admin) is able to create two different batches and able to retrieve specific batch based on Batch ID
 
-  Scenario Outline: The user can create different programs as <batchName>
+  Scenario Outline: The user can create different Batchs as <batchName>
     Given A services with "URL" is available
     And User sets the header
     When User adding body with batch name, batch description, batch no of classes <batchStatus>
@@ -20,8 +20,3 @@ Feature: Batch API Testing for LMS Program module
       | batchStatus |
       | "Active"    |
       | "Active"    |
-  #Scenario: The user can retrieve specific program based on batch ID
-    #Given A service with "URL" is available
-    #When User makes a "GET" request with endpoint "/batches/batchId/:BatchId"
-    #Then User get status code as 200
-    #And Validate required fields

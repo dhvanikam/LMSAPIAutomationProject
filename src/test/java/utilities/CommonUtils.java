@@ -29,7 +29,7 @@ public class CommonUtils {
 		return randomnum;
 	}
 
-	public void setProgramID(Integer prm) {
+	public static void setProgramID(Integer prm) {
 
 		if (map.containsKey("prgrmID")) {
 			map.put("prgrmID1", prm);
@@ -39,7 +39,7 @@ public class CommonUtils {
 		Loggerload.debug("Adding program ID to map" + map);
 	}
 
-	public void setProgramName(String prmname) {
+	public static void setProgramName(String prmname) {
 
 		if (map.containsKey("prgrmName")) {
 			map.put("prgrmName1", prmname);
@@ -49,7 +49,7 @@ public class CommonUtils {
 		Loggerload.debug("Adding program Name to map " + map);
 	}
 
-	public void setProgramDesc(String programdesc) {
+	public static void setProgramDesc(String programdesc) {
 		if (map.containsKey("programDescription")) {
 			map.put("programDescription1", programdesc);
 		} else {
@@ -58,7 +58,7 @@ public class CommonUtils {
 		Loggerload.debug("Adding program description to map " + map);
 	}
 
-	public void setProgramStatus(String programstatus) {
+	public static void setProgramStatus(String programstatus) {
 		if (map.containsKey("programStatus")) {
 			map.put("programStatus1", programstatus);
 		} else {
@@ -67,7 +67,7 @@ public class CommonUtils {
 		Loggerload.debug("Adding program status to map " + map);
 	}
 
-	public Object getKeyValue(String key) {
+	public static Object getKeyValue(String key) {
 		Loggerload.debug("Return Key value from map " + map);
 		return map.get(key);
 		

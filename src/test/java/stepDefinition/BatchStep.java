@@ -18,20 +18,18 @@ import utilities.CommonUtils;
 import utilities.Loggerload;
 
 public class BatchStep {
-//	ProgramStep ps= new ProgramStep();
 	CommonUtils commnutils = new CommonUtils();
 
 	private static final String BASE_URL = "https://lms-backend-service.herokuapp.com/lms";
 	private static Response response;
 	private static RequestSpecification request;
 	JsonPath jsonPathEvaluator;
-	
+
 	Integer batchID;
 	String batchName;
 	String batchdescription;
 	String batchstatus;
 	Integer batchNoOfClasses;
-	Integer programId=360;
 
 	static String expBatchname;
 	static String expBatchdesc;
@@ -40,7 +38,7 @@ public class BatchStep {
 	static Integer expProgramId;
 
 	Scenario scenario;
-	
+
 	@Given("A services with {string} is available")
 	public void a_services_with_is_available(String string) {
 		RestAssured.baseURI = BASE_URL;
@@ -48,19 +46,19 @@ public class BatchStep {
 
 	@Given("User sets the header")
 	public void user_sets_the_header() {
-		request = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON);
+		request = RestAssured.given().relaxedHTTPSValidation().contentType(ContentType.JSON).accept(ContentType.JSON);
 	}
-	
-	
+
+	@SuppressWarnings("unchecked")
 	@When("User adding body with batch name, batch description, batch no of classes {string}")
 	public void user_adding_body_with_batch_name_batch_description_batch_no_of_classes(String batchst) {
-		String createModTime = commnutils.getDateISOformat();
 		String batchname = commnutils.getBatchName();
 		String programname = commnutils.getProgramName();
-		
-		Loggerload.debug("construct the Batch name - as per the pattern");		
-		String batchNameString = commnutils.getMonth()+commnutils.getYear()+"-NinjaTrainees-"+programname+"-"+batchname+commnutils.getBatchNameSeries()+"-"+commnutils.getSerialNumber();
-		String batchdesc = "Learn "+programname;
+
+		Loggerload.debug("construct the Batch name - as per the pattern");
+		String batchNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + programname + "-"
+				+ batchname + commnutils.getBatchNameSeries() + "-" + commnutils.getSerialNumber();
+		String batchdesc = "Learn " + programname;
 		Integer batchNumberOfClasses = commnutils.getNoOfClasses();
 		System.out.println("batchNameString : " + batchNameString);
 		System.out.println("batchNumberOfClasses : " + batchNumberOfClasses);
@@ -69,36 +67,54 @@ public class BatchStep {
 		expBatchdesc = batchdesc;
 		expBatchstatus = batchst;
 		expBatchNoOfClasses = batchNumberOfClasses;
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		JSONObject requestbody = new JSONObject(map);
-		
+
 		requestbody.put("batchName", batchNameString);
 		requestbody.put("batchDescription", batchdesc);
 		requestbody.put("batchStatus", batchst);
 		requestbody.put("batchNoOfClasses", batchNumberOfClasses);
-		requestbody.put("programId", 360);
-		
+		requestbody.put("programId", 2626);// CommonUtils.getKeyValue("prgrmID").toString()
+
 		Loggerload.debug(requestbody.toJSONString());
-		System.out.println("requestbody : "+requestbody);
+		System.out.println("requestbody : " + requestbody);
 		request.body(requestbody.toJSONString());
 	}
 
 	@When("User makes a {string} request with endpoint {string}")
 	public void user_makes_a_request_with_endpoint(String req, String endpoint) {
-		System.out.println("endpoint : "+endpoint +"\n " +request);
-		
+		System.out.println("endpoint : " + endpoint + "\n " + request);
+
 		switch (req) {
 		case "POST":
 			response = request.post(endpoint);
-			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
+			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
 			break;
 
 		case "GET":
 			String updatedEndpoint = endpoint.replace(":BatchId", batchID.toString());
 			Loggerload.info(updatedEndpoint);
 			response = request.get(updatedEndpoint);
-			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
+			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
+			break;
+
+		case "PUT":
+			String bname = CommonUtils.getKeyValue("batchName").toString();
+			Loggerload.info("User do PUT request with endpoint: " + endpoint.replace(":(BatchName)", bname));
+			Loggerload.info("Batch Name to be updated:" + bname);
+			response = request.put(endpoint.replace(":(BatchName)", bname));
+			
+		case "DELETE":
+			String bid = CommonUtils.getKeyValue("batchID").toString();
+			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid));
+			Loggerload.info("Delete By Batch ID :" + bid);
+			response = request.delete(endpoint.replace(":(BatchId)", bid));
+			
+			String bid1 = CommonUtils.getKeyValue("batchID1").toString();
+			Loggerload.info("User do DELETE request with endpoint: " +endpoint.replace(":(BatchId)", bid1));
+			Loggerload.info("Delete By Batch ID :" + bid1);
+			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
 		default:
 			System.out.println("Unexpected request");
@@ -107,9 +123,9 @@ public class BatchStep {
 
 	@Then("User saves response")
 	public void user_saves_response() {
-		ResponseBody body = response.getBody();	
+		ResponseBody body = response.getBody();
 		jsonPathEvaluator = response.jsonPath();
-		
+
 		batchID = jsonPathEvaluator.get("batchId");
 		Loggerload.info(batchID);
 		commnutils.setBatchID(batchID);
@@ -125,20 +141,16 @@ public class BatchStep {
 		batchstatus = jsonPathEvaluator.get("batchStatus");
 		commnutils.setBatchStatus(batchstatus);
 		Loggerload.info(batchstatus);
-		
+
 		batchNoOfClasses = jsonPathEvaluator.get("batchNoOfClasses");
 		commnutils.setBatchNoOfClasses(batchNoOfClasses);
 		Loggerload.info(batchNoOfClasses);
-		
-		programId = jsonPathEvaluator.get("programId");
-		Loggerload.info(programId);
-		commnutils.setProgramID(programId);
-		
+
 	}
 
 	@Then("User get batch status code as {int}")
 	public void user_get_batch_status_code_as(Integer int1) {
-	Assert.assertEquals(response.getStatusCode(), int1);
+		Assert.assertEquals(response.getStatusCode(), int1);
 	}
 
 	@Then("Validate required fields")
@@ -147,10 +159,9 @@ public class BatchStep {
 		Assert.assertEquals(batchdescription, expBatchdesc);
 		Assert.assertEquals(batchstatus, expBatchstatus);
 		Assert.assertEquals(batchNoOfClasses, expBatchNoOfClasses);
-		//Assert.assertEquals(programId, expProgramId);
 
 	}
-	
+
 	@Then("Validate required fields for get")
 	public void validate_required_fields_for_get() {
 		Assert.assertEquals(batchName, expBatchname);
@@ -159,6 +170,54 @@ public class BatchStep {
 		Assert.assertEquals(batchNoOfClasses, expBatchNoOfClasses);
 	}
 
+	/*************/
 
+	@SuppressWarnings("unchecked")
+	@When("User add body with new batch name and batch description")
+	public void user_add_body_with_new_batch_name_and_batch_description() {
+
+		String batchname = commnutils.getBatchName();
+		String programname = commnutils.getProgramName();
+
+		Loggerload.debug("construct the Batch name - as per the pattern");
+		String batchNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + programname + "-"
+				+ batchname + commnutils.getBatchNameSeries() + "-" + commnutils.getSerialNumber();
+		String batchdesc = "Learn " + programname;
+		Integer batchNumberOfClasses = commnutils.getNoOfClasses();
+		System.out.println("batchNameString : " + batchNameString);
+		System.out.println("batchNumberOfClasses : " + batchNumberOfClasses);
+
+		expBatchname = batchNameString;
+		expBatchdesc = batchdesc;
+		expBatchstatus = CommonUtils.getKeyValue("batchStatus").toString();
+		expBatchNoOfClasses = batchNumberOfClasses;
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject requestbody = new JSONObject(map);
+
+		requestbody.put("batchName", batchNameString);
+		requestbody.put("batchDescription", batchdesc);
+		requestbody.put("batchStatus", CommonUtils.getKeyValue("batchStatus").toString());
+		requestbody.put("batchNoOfClasses", batchNumberOfClasses);
+		requestbody.put("programId", CommonUtils.getKeyValue("prgrmID").toString());
+
+		request.body(requestbody.toJSONString());
+
+		Loggerload.info("New Batch Name :" + batchNameString);
+		Loggerload.info("New BAtch Description : " + batchdesc);
+	}
+
+
+	@Then("User gets status code as {int}")
+	public void user_gets_status_code_as(Integer int1) {
+		Assert.assertEquals(response.getStatusCode(), int1);
+	}
+
+	@Then("Validate necessary fields in response")
+	public void validate_necessary_fields_in_response() {
+		Assert.assertEquals(batchName, expBatchname);
+		Assert.assertEquals(batchdescription, expBatchdesc);
+		Assert.assertEquals(batchstatus, expBatchstatus);
+		Assert.assertEquals(batchNoOfClasses, expBatchNoOfClasses);
+	}
 
 }
