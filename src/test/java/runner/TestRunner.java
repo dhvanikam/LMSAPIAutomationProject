@@ -7,7 +7,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(plugin = { "pretty", "html:target/Api.html" }, // reporting purpose
 		monochrome = false, // console output
-		tags = "@batch_post or @batch_get_all_404", // tags from feature file
+		tags = "", // tags from feature file
 		features = { "src/test/resources/features" }, // location of feature files
 		glue = { "stepDefinition", "appHooks"}) // location of step definition files
 
