@@ -35,17 +35,50 @@ public class BatchStep {
 	static String expBatchstatus;
 	static Integer expBatchNoOfClasses;
 	static Integer expProgramId;
-
+	
+	
 	@Given("A service with base {string} is available")
 	public void a_service_with_base_is_available(String string) {
 		RestAssured.baseURI = BASE_URL;
 	}
+
 
 	@Given("User sets the header")
 	public void user_sets_the_header() {
 		request = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON);
 	}
 
+	@When("User adding body with batch no of classes, {string}, {string}, {string}")
+	public void user_adding_body_with_batch_no_of_classes(String batchst, String batchname, String batchdesc) {
+		String programname = commnutils.getProgramName();
+
+		Loggerload.debug("construct the Batch name - as per the pattern");
+		String batchNameString = commnutils.getMonth() + commnutils.getYear() + "-NinjaTrainees-" + programname + "-"
+				+ batchname + commnutils.getBatchNameSeries() + "-" + commnutils.getSerialNumber();
+
+		Integer batchNumberOfClasses = commnutils.getNoOfClasses();
+		System.out.println("batchNameString : " + batchNameString);
+		System.out.println("batchNumberOfClasses : " + batchNumberOfClasses);
+
+		expBatchname = batchNameString;
+		expBatchdesc = batchdesc;
+		expBatchstatus = batchst;
+		expBatchNoOfClasses = batchNumberOfClasses;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject requestbody = new JSONObject(map);
+
+		requestbody.put("batchName", batchNameString);
+		requestbody.put("batchDescription", batchdesc);
+		requestbody.put("batchStatus", batchst);
+		requestbody.put("batchNoOfClasses", batchNumberOfClasses);
+		requestbody.put("programId", CommonUtils.getkeyvalueFromMap("prgrmID").toString());// CommonUtils.getKeyValue("prgrmID").toString()
+
+		Loggerload.debug(requestbody.toJSONString());
+		request.body(requestbody.toJSONString());
+	}
+
+	
 	@SuppressWarnings("unchecked")
 	@When("User adding body with batch name, batch description, batch no of classes {string}")
 	public void user_adding_body_with_batch_name_batch_description_batch_no_of_classes(String batchst) {
@@ -75,7 +108,6 @@ public class BatchStep {
 		requestbody.put("programId", CommonUtils.getkeyvalueFromMap("prgrmID").toString());// CommonUtils.getKeyValue("prgrmID").toString()
 
 		Loggerload.debug(requestbody.toJSONString());
-		System.out.println("requestbody : " + requestbody);
 		request.body(requestbody.toJSONString());
 	}
 
@@ -85,14 +117,15 @@ public class BatchStep {
 
 		switch (req) {
 		case "POST":
+			Loggerload.info("User do GET request with endpoint: "+endpoint );
 			response = request.post(endpoint);
-			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
+			
 			break;
 
 		case "GET":
-			Loggerload.info(endpoint.replace(":BatchId", batchID.toString()));
+			Loggerload.info("User do GET request with endpoint: "+endpoint.replace(":BatchId", batchID.toString()));
 			response = request.get(endpoint.replace(":BatchId", batchID.toString()));
-			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
+			
 			break;
 
 		case "PUT":
@@ -101,15 +134,6 @@ public class BatchStep {
 			Loggerload.info("Batch Name to be updated:" + bname);
 			response = request.put(endpoint.replace(":(BatchName)", bname));
 			break;
-
-			
-		case "PUT_ByID":
-			String batchid = CommonUtils.getkeyvalueFromMap("batchID").toString();
-			Loggerload.info("User do PUT request with endpoint: " + endpoint.replace(":(BatchId)", batchid));
-			Loggerload.info("Batch ID to be updated:" + batchid);
-			response = request.put(endpoint.replace(":(BatchId)", batchid));
-			break;
-
 
 		case "DELETE":
 			String bid = CommonUtils.getkeyvalueFromMap("batchID").toString();
@@ -123,36 +147,22 @@ public class BatchStep {
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
 
-			
-		case "DELETE_BatchName":
-			
-			String batchname = CommonUtils.getkeyvalueFromMap("batchName").toString();
-			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchName)",batchname));
-			Loggerload.info("Batch Name to be Deleted :" + batchname);
-			response = request.delete(endpoint.replace(":(BatchName)", batchname));
-			break;
-		
-//		case "GETALLBATCHES":
-//			response = request.get(endpoint);
-//			//Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
-//		break;
-//		
-		
 		case "GETALLBATCHES":
 			response = request.get(endpoint);
+			// Loggerload.info("response for request to get all batches is : "
+			// +response.getBody().asPrettyString());
 			break;
 
 		case "GETBATCHESBYBATCHID":
-			Loggerload.info(endpoint.replace(":BatchId", batchID.toString()));
+			Loggerload.info("User do GET request with endpoint: "+endpoint.replace(":BatchId", batchID.toString()));
 			response = request.get(endpoint.replace(":BatchId", batchID.toString()));
-			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
+			
 			break;
 			
 		case "GETBATCHESBYPROGRAMID":
 			String programIdEndpoint = endpoint.replace(":(ProgramId)", CommonUtils.getkeyvalueFromMap("prgrmID").toString());
-			Loggerload.info(programIdEndpoint);
+			Loggerload.info("User do GET request with endpoint: "+ programIdEndpoint);
 			response = request.get(programIdEndpoint);
-			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
 			break;
 			
 		default:
@@ -188,8 +198,8 @@ public class BatchStep {
 	}
 
 	@Then("User get batch status code as {int}")
-	public void user_get_batch_status_code_as(Integer int1) {
-		Assert.assertEquals(response.getStatusCode(), int1);
+	public void user_get_batch_status_code_as(Integer statuscode) {
+		Assert.assertEquals(response.getStatusCode(), statuscode);
 	}
 
 	@Then("Validate required fields")
