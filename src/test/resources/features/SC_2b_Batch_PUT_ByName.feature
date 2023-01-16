@@ -1,8 +1,8 @@
 @batch
-Feature: Program API testing
+Feature: Batch API Testing for LMS Batch module
 
   @batch_put_ByName
-  Scenario: The user (Admin) can update a batch by Batch Name
+  Scenario: The user can update a batch by Batch Name
     Given A service with "URL" is available
     When User add body with new batch name and batch description
     And User makes a "PUT" request with endpoint "/batches/batchName/:(BatchName)"
@@ -10,14 +10,14 @@ Feature: Program API testing
     And Validate necessary fields in response
 
   @batch_put_ByName_404
-  Scenario: The user (Admin) get 404 response code for invalid path
+  Scenario: The user (Admin) get 404 response code for invalid path for PUT request by Batch Name
     Given A service with "URL" is available
     When User add body with new batch name and batch description
     And User makes a "PUT" request with endpoint "/batchesinvalid/batchName/:(BatchName)"
     Then User gets status code as 404
 
   @batch_put_ByName_400
-  Scenario: The user (Admin) get 400 response code for invalid param
+  Scenario: The user (Admin) get 400 response code for invalid param for PUT request by Batch Name
     Given A service with "URL" is available
     When User add body with new batch name and batch description
     And User makes a "PUT" request with endpoint "/batches/batchName/:(BatchName)" with invalid param "testinvalid"

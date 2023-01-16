@@ -134,7 +134,14 @@ public class BatchStep {
 			Loggerload.info("Batch Name to be updated:" + bname);
 			response = request.put(endpoint.replace(":(BatchName)", bname));
 			break;
-
+	
+		case "PUT_ByID":
+			String bid3 = CommonUtils.getkeyvalueFromMap("batchID").toString();
+			Loggerload.info("User do PUT request with endpoint: " + endpoint.replace(":(BatchId)", bid3));
+			Loggerload.info("Batch id to be updated:" + bid3);
+			response = request.put(endpoint.replace(":(BatchId)", bid3));
+			break;
+			
 		case "DELETE":
 			String bid = CommonUtils.getkeyvalueFromMap("batchID").toString();
 			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid));
