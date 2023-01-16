@@ -1,5 +1,5 @@
 @batch
-Feature: Batch API testing
+Feature: Batch API Testing for LMS Batch module
 
   @batch_get_ByProgramID
   Scenario: The user (Admin) can get batches by program Id and do necessary validations
