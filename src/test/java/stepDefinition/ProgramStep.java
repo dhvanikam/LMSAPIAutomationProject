@@ -126,6 +126,7 @@ public class ProgramStep {
 			Loggerload.info(pid3);
 			String programIdEndpoint = endpoint.replace(":ProgramID", pid3);
 			response = request.get(programIdEndpoint);
+
 			// Loggerload.info("Response : "
 			// +response.getStatusCode()+"\n"+response.getStatusLine());
 			break;
