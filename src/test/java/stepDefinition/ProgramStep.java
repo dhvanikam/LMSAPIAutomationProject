@@ -75,11 +75,12 @@ public class ProgramStep {
 	}
 
 	@When("User make a {string} request with endpoint {string}")
-	public void user_make_a_request_with_endpoint(String req, String endpoint) {
+	public void user_make_a_request_with_endpoint(String req, String endpoint) throws InterruptedException {
 		System.out.println("endpoint : " + endpoint);
-
+		Thread.sleep(20);
 		switch (req) {
 		case "POST":
+			
 			response = request.post(endpoint);
 			break;
 
@@ -119,7 +120,22 @@ public class ProgramStep {
 			Loggerload.info("Delete By Program ID :" + pid1);
 			response = request.delete(endpoint.replace(":(ProgramID)", pid1));
 			break;
+			
+		case "GET PROGRAM BY ID":
+			String pid3 = CommonUtils.getkeyvalueFromMap("prgrmID").toString();
+			Loggerload.info(pid3);
+			String programIdEndpoint = endpoint.replace(":ProgramID", pid3);
+			response = request.get(programIdEndpoint);
+			// Loggerload.info("Response : "
+			// +response.getStatusCode()+"\n"+response.getStatusLine());
+			break;
 
+		case "DELETE BY PNAME":
+			String pname1 = CommonUtils.getkeyvalueFromMap("prgrmName").toString();
+			Loggerload.info("Delete By Program Name :" + pname1);
+			Loggerload.info(endpoint.replace(":(ProgramName)", pname1));
+			response = request.put(endpoint.replace(":(ProgramName)", pname1));
+			break;
 		default:
 			System.out.println("Unexpected request");
 		}
@@ -133,7 +149,7 @@ public class ProgramStep {
 		programID = jsonPathEvaluator.get("programId");
 		Loggerload.info("Response : Program ID is " + programID);
 		CommonUtils.setkeyvalueIntMap("prgrmID", programID);
-		
+
 		programName = jsonPathEvaluator.get("programName");
 		CommonUtils.setkeyvalueStringMap("prgrmName", programName);
 		Loggerload.info("Response : Program Name is " + programName);
@@ -141,7 +157,7 @@ public class ProgramStep {
 		programdesc = jsonPathEvaluator.get("programDescription");
 		Loggerload.info("Response : Program Description is " + programdesc);
 		CommonUtils.setkeyvalueStringMap("programDescription", programName);
-		
+
 		programstatus = jsonPathEvaluator.get("programStatus");
 		CommonUtils.setkeyvalueStringMap("programStatus", programName);
 		Loggerload.info("Response : Program Status is " + programstatus);
