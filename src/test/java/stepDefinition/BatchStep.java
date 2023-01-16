@@ -101,6 +101,7 @@ public class BatchStep {
 			Loggerload.info("Batch Name to be updated:" + bname);
 			response = request.put(endpoint.replace(":(BatchName)", bname));
 			break;
+
 			
 		case "PUT_ByID":
 			String batchid = CommonUtils.getkeyvalueFromMap("batchID").toString();
@@ -108,7 +109,7 @@ public class BatchStep {
 			Loggerload.info("Batch ID to be updated:" + batchid);
 			response = request.put(endpoint.replace(":(BatchId)", batchid));
 			break;
-			
+
 
 		case "DELETE":
 			String bid = CommonUtils.getkeyvalueFromMap("batchID").toString();
@@ -121,6 +122,7 @@ public class BatchStep {
 			Loggerload.info("Delete By Batch ID :" + bid1);
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
+
 			
 		case "DELETE_BatchName":
 			
@@ -136,12 +138,8 @@ public class BatchStep {
 //		break;
 //		
 		
-
 		case "GETALLBATCHES":
 			response = request.get(endpoint);
-			// Loggerload.info("response for request to get all batches is : "
-			// +response.getBody().asPrettyString());
-
 			break;
 
 		case "GETBATCHESBYBATCHID":
@@ -149,7 +147,14 @@ public class BatchStep {
 			response = request.get(endpoint.replace(":BatchId", batchID.toString()));
 			Loggerload.info("Response : " + response.getStatusCode() + "\n" + response.getStatusLine());
 			break;
-
+			
+		case "GETBATCHESBYPROGRAMID":
+			String programIdEndpoint = endpoint.replace(":(ProgramId)", CommonUtils.getkeyvalueFromMap("prgrmID").toString());
+			Loggerload.info(programIdEndpoint);
+			response = request.get(programIdEndpoint);
+			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
+			break;
+			
 		default:
 			System.out.println("Unexpected request");
 		}
