@@ -6,3 +6,10 @@ Feature: Batch API testing
     Given A service with base "URL" is available
     When User makes a "GETALLBATCHES" request with endpoint "/batches"
     Then do validations for batch
+
+ @batch_get_all_404
+  Scenario: The user (Admin) get 404 response code for invalid path
+    Given A service with base "URL" is available   
+    When User makes a "GETALLBATCHES" request with endpoint "/batchinvalidpath/batches"
+    Then User gets status code as 404
+
