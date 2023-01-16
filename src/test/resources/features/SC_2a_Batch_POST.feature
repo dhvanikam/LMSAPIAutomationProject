@@ -1,6 +1,6 @@
 @batch
 Feature: Batch API Testing for LMS Batch module
-  Description: The user (Admin) is able to create two different batches and able to retrieve specific batch based on Batch ID
+  Description: The user create two batches, The user can create a batch only if the program is present. As the batch is associated with program Id.
 
   @batch_post
   Scenario Outline: The user can create different Batchs as <batchname>
@@ -23,7 +23,7 @@ Feature: Batch API Testing for LMS Batch module
       | "Active"    | "Java"     | "Learn Java"     |
 
   @batch_post_404
-  Scenario Outline: The user get 404 response code for invalid path
+  Scenario Outline: The user get 404 response code for invalid path for POST batch
     Given A service with "URL" is available
     And User set the header
     When User adding body with batch name, batch description, batch no of classes <batchStatus>
@@ -35,7 +35,7 @@ Feature: Batch API Testing for LMS Batch module
       | "Active"    |
 
   @batch_post_400
-  Scenario Outline: The user get 400 response code for invalid body
+  Scenario Outline: The user get 400 response code for invalid body for POST batch
     Given A service with "URL" is available
     And User set the header
     When User add body only with <batchName>
