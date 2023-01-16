@@ -101,18 +101,15 @@ public class BatchStep {
 			Loggerload.info("Batch Name to be updated:" + bname);
 			response = request.put(endpoint.replace(":(BatchName)", bname));
 			break;
-<<<<<<< HEAD
 			
 		case "PUT_ByID":
-			String batchid = CommonUtils.getKeyValue("batchID").toString();
+			String batchid = CommonUtils.getkeyvalueFromMap("batchID").toString();
 			Loggerload.info("User do PUT request with endpoint: " + endpoint.replace(":(BatchId)", batchid));
 			Loggerload.info("Batch ID to be updated:" + batchid);
 			response = request.put(endpoint.replace(":(BatchId)", batchid));
 			break;
 			
-=======
 
->>>>>>> 4d6c21198f69c3f3577ddd94eabe8aa4c8635884
 		case "DELETE":
 			String bid = CommonUtils.getkeyvalueFromMap("batchID").toString();
 			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchId)", bid));
@@ -124,11 +121,10 @@ public class BatchStep {
 			Loggerload.info("Delete By Batch ID :" + bid1);
 			response = request.delete(endpoint.replace(":(BatchId)", bid1));
 			break;
-<<<<<<< HEAD
 			
 		case "DELETE_BatchName":
 			
-			String batchname = CommonUtils.getKeyValue("batchName").toString();
+			String batchname = CommonUtils.getkeyvalueFromMap("batchName").toString();
 			Loggerload.info("User do DELETE request with endpoint: " + endpoint.replace(":(BatchName)",batchname));
 			Loggerload.info("Batch Name to be Deleted :" + batchname);
 			response = request.delete(endpoint.replace(":(BatchName)", batchname));
@@ -139,18 +135,13 @@ public class BatchStep {
 //			//Loggerload.info("response for request to get all batches is : " +response.getBody().asPrettyString());
 //		break;
 //		
-		case "GETBATCHESBYBATCHID":
-			String batchIdEndpoint = endpoint.replace(":BatchId", batchID.toString());
-			Loggerload.info(batchIdEndpoint);
-			response = request.get(batchIdEndpoint);
-			Loggerload.info("Response : " +response.getStatusCode()+"\n"+response.getStatusLine());
-=======
+		
 
 		case "GETALLBATCHES":
 			response = request.get(endpoint);
 			// Loggerload.info("response for request to get all batches is : "
 			// +response.getBody().asPrettyString());
->>>>>>> 4d6c21198f69c3f3577ddd94eabe8aa4c8635884
+
 			break;
 
 		case "GETBATCHESBYBATCHID":
