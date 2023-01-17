@@ -11,7 +11,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import utilities.CommonUtils;
 import utilities.Loggerload;
@@ -48,6 +47,7 @@ public class BatchStep {
 		request = RestAssured.given().contentType(ContentType.JSON).accept(ContentType.JSON);
 	}
 
+	@SuppressWarnings("unchecked")
 	@When("User adding body with batch no of classes, {string}, {string}, {string}")
 	public void user_adding_body_with_batch_no_of_classes(String batchst, String batchname, String batchdesc) {
 		String programname = commnutils.getProgramName();
@@ -179,7 +179,6 @@ public class BatchStep {
 
 	@Then("User saves response")
 	public void user_saves_response() {
-		ResponseBody body = response.getBody();
 		jsonPathEvaluator = response.jsonPath();
 
 		batchID = jsonPathEvaluator.get("batchId");
@@ -206,6 +205,11 @@ public class BatchStep {
 
 	@Then("User get batch status code as {int}")
 	public void user_get_batch_status_code_as(Integer statuscode) {
+
+		Assert.assertNotNull(response.getBody());
+		Loggerload.info("response ContentType is : " + response.getContentType());
+		Assert.assertEquals(response.getContentType(), "application/json");
+		Loggerload.info("response statuscode : " + response.getStatusCode());
 		Assert.assertEquals(response.getStatusCode(), statuscode);
 	}
 
@@ -218,19 +222,10 @@ public class BatchStep {
 
 	}
 
-	@Then("Validate required fields for get")
-	public void validate_required_fields_for_get() {
-		Assert.assertEquals(batchName, expBatchname);
-		Assert.assertEquals(batchdescription, expBatchdesc);
-		Assert.assertEquals(batchstatus, expBatchstatus);
-		Assert.assertEquals(batchNoOfClasses, expBatchNoOfClasses);
-	}
-
 	// *********************Batch Get All***********************/
 
 	@Then("do validations for batch")
 	public void do_validations_for_batch() {
-
 		Assert.assertNotNull(response.getBody());
 		Loggerload.info("response ContentType is : " + response.getContentType());
 		Assert.assertEquals(response.getContentType(), "application/json");
@@ -297,5 +292,14 @@ public class BatchStep {
 		Loggerload.info("Update By Program Name :" + bname);
 		response = request.put(endpoint.replace(":(ProgramName)", bname));
 	}
-
+	@When("User make a {string} request with endpoint {string} with endpoint {int}")
+	public void user_make_a_request_with_endpoint_with_endpoint(String string, String endpoint, Integer int1) {
+		Loggerload.info("User do GET request with endpoint: "+endpoint.replace(":BatchId", (int1).toString()));
+		response = request.get(endpoint.replace(":BatchId", batchID.toString()));
+	}
+	@When("User makes a {string} request with endpoint {string} with endpoint {int}")
+	public void user_makes_a_request_with_endpoint_with_endpoint(String string, String endpoint, Integer int1) {
+		Loggerload.info("User do GET request with endpoint: "+endpoint);
+		response = request.get(endpoint.replace(":ProgramId", (int1).toString()));
+	}
 }

@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class CommonUtils {
-	static Integer programID;
-	static Integer batchID;
+
 	public static HashMap<String, Object> map = new HashMap<String, Object>();
 
 	public String getDateISOformat() {

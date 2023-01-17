@@ -12,6 +12,7 @@ Feature: Rest API testing for LMS Program module
     And User get status code as 201
     And Validate the response fields
     Given A service with "URL" is available
+    And User set the header
     When User make a "GET" request with endpoint "/programs/:ProgramId"
     Then User get status code as 200
 
@@ -21,7 +22,7 @@ Feature: Rest API testing for LMS Program module
       | "InActive"    | "Java"      | "Learn Java"        |
 
   @program_post_404
-  Scenario Outline: The user (Admin) get 404 response code for invalid param for POST program
+  Scenario Outline: The user (Admin) get 404 response code for invalid param for POST <programName>
     Given A service with "URL" is available
     And User set the header
     When User add body with <programName>, <program description> and <programStatus>
@@ -33,7 +34,7 @@ Feature: Rest API testing for LMS Program module
       | "Active"      | "Selenium"  | "Learn Selenium"    |
 
   @program_post_400
-  Scenario Outline: The user (Admin) get 404 response code for invalid body param for POST program
+  Scenario Outline: The user (Admin) get 400 response code for invalid body param for POST <programName>
     Given A service with "URL" is available
     And User set the header
     When User add body only with <programName>
