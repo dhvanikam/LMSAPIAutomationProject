@@ -12,3 +12,9 @@ Feature: Batch API Testing for LMS Batch module
     Given A service with base "URL" is available
     When User make a "GETBATCHESBYBATCHID" request with endpoint "batchesinvalidpath/batches/batchId/:BatchId"
     Then User get status code as 400
+    
+  @batch_get_404
+  Scenario Outline: The user get 404 response code for invalid path for GET Request by batch Id
+    Given A service with base "URL" is available
+    When User make a "GETBATCHESBYBATCHID" request with endpoint "/batches/batchId/:BatchId" with endpoint 9
+    Then User get status code as 404

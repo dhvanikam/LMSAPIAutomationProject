@@ -292,5 +292,14 @@ public class BatchStep {
 		Loggerload.info("Update By Program Name :" + bname);
 		response = request.put(endpoint.replace(":(ProgramName)", bname));
 	}
-
+	@When("User make a {string} request with endpoint {string} with endpoint {int}")
+	public void user_make_a_request_with_endpoint_with_endpoint(String string, String endpoint, Integer int1) {
+		Loggerload.info("User do GET request with endpoint: "+endpoint.replace(":BatchId", (int1).toString()));
+		response = request.get(endpoint.replace(":BatchId", batchID.toString()));
+	}
+	@When("User makes a {string} request with endpoint {string} with endpoint {int}")
+	public void user_makes_a_request_with_endpoint_with_endpoint(String string, String endpoint, Integer int1) {
+		Loggerload.info("User do GET request with endpoint: "+endpoint.replace(":ProgramId", (int1).toString()));
+		response = request.get(endpoint.replace(":ProgramId", batchID.toString()));
+	}
 }
