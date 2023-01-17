@@ -15,7 +15,7 @@ Feature: Batch API Testing for LMS Batch module
     When User makes a "GET" request with endpoint "/batches/batchId/:BatchId"
     Then User saves response
     Then User get batch status code as 200
-    And Validate required fields for get
+    And Validate required fields
 
     Examples: 
       | batchStatus | batchname  | batchdescription |

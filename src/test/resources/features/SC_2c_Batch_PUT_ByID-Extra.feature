@@ -6,4 +6,4 @@ Feature: Batch API Testing for LMS Batch module
     Given A service with "URL" is available
     When User add body with new batch name and batch description
     And User makes a "PUT_ByID" request with endpoint "/batches/:(BatchId)"
-    Then User gets status code as 200
+    Then User get batch status code as 200

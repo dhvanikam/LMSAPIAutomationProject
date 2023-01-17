@@ -13,7 +13,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import utilities.CommonUtils;
 import utilities.Loggerload;
@@ -143,7 +142,6 @@ public class ProgramStep {
 
 	@Then("User save response")
 	public void user_save_response() {
-		ResponseBody body = response.getBody();
 		jsonPathEvaluator = response.jsonPath();
 
 		programID = jsonPathEvaluator.get("programId");
@@ -165,11 +163,19 @@ public class ProgramStep {
 
 	@Then("User get status code as {int}")
 	public void user_get_status_code_as(Integer int1) {
+		Assert.assertEquals(response.getContentType(), "application/json");
+		Assert.assertNotNull(response.getBody());
+		Loggerload.info("response ContentType is : " + response.getContentType());
+		Assert.assertEquals(response.getContentType(), "application/json");
+		Loggerload.info("response statuscode : " + response.getStatusCode());
 		Assert.assertEquals(response.getStatusCode(), int1);
+	
 	}
+
 
 	@Then("Validate the response fields")
 	public void validate_the_response_fields() {
+		Loggerload.info("Validate the response fields Program name, Program description, Program status" );
 		Assert.assertEquals(programName, expProgramname);
 		Assert.assertEquals(programdesc, expProgramdesc);
 		Assert.assertEquals(programstatus, expProgramstatus);
