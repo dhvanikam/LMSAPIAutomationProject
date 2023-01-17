@@ -5,6 +5,7 @@ Feature: Rest API testing for LMS Program module
   @program_put_ByID
   Scenario: The user can update program by program ID
     Given A service with "URL" is available
+    And User set the header
     When User add body with new program name and program description
     And User make a "PUT for PID" request with endpoint "/putprogram/:ProgramID"
     Then do necessary validations
@@ -12,6 +13,7 @@ Feature: Rest API testing for LMS Program module
   @program_put_ByID_404
   Scenario: The user (Admin) get 404 response code for invalid path for PUT request by Program ID
     Given A service with "URL" is available
+    And User set the header
     When User add body with new program name and program description
     And User make a "PUT for PID" request with endpoint "/programinvalidpath/:(ProgramID)"
     Then User get status code as 404
@@ -19,6 +21,7 @@ Feature: Rest API testing for LMS Program module
   @program_put_ByID_400
   Scenario: The user (Admin) get 400 response code for invalid param for PUT request by Program ID
     Given A service with "URL" is available
+    And User set the header
     When User add body with new program name and program description
     And User make a "PUT" request with endpoint "/putprogram/:(ProgramID)" with invalid param "test"
     Then User get status code as 400

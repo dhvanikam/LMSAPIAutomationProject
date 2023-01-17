@@ -299,7 +299,7 @@ public class BatchStep {
 	}
 	@When("User makes a {string} request with endpoint {string} with endpoint {int}")
 	public void user_makes_a_request_with_endpoint_with_endpoint(String string, String endpoint, Integer int1) {
-		Loggerload.info("User do GET request with endpoint: "+endpoint.replace(":ProgramId", (int1).toString()));
-		response = request.get(endpoint.replace(":ProgramId", batchID.toString()));
+		Loggerload.info("User do GET request with endpoint: "+endpoint);
+		response = request.get(endpoint.replace(":ProgramId", (int1).toString()));
 	}
 }
