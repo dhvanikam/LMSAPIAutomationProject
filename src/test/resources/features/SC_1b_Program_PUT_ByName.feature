@@ -8,7 +8,7 @@ Feature: Rest API testing for LMS Program module
     And User make a "PUT" request with endpoint "/program/:(ProgramName)"
     Then User get status code as 200
 
-  @pprogram_put_ByPName_404
+  @program_put_ByPName_404
   Scenario: The user (Admin) get 404 response code for invalid path for PUT request by Program Name
     Given A service with "URL" is available
     When User add body with new program name and program description

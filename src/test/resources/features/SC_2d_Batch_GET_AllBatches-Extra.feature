@@ -7,9 +7,8 @@ Feature: Batch API Testing for LMS Batch module
     When User makes a "GETALLBATCHES" request with endpoint "/batches"
     Then do validations for batch
 
- @batch_get_all_404
-  Scenario: The user (Admin) get 404 response code for invalid path for GET Request all batches
-    Given A service with base "URL" is available   
+  @batch_get_all_404
+  Scenario: The user get 404 response code for invalid path for GET Request all batches
+    Given A service with base "URL" is available
     When User makes a "GETALLBATCHES" request with endpoint "/batchinvalidpath/batches"
     Then User gets status code as 404
-
