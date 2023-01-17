@@ -14,11 +14,11 @@ Feature: Batch API Testing for LMS Batch module
     Given A service with "URL" is available
     When User add body with new batch name and batch description
     And User makes a "PUT" request with endpoint "/batchesinvalid/batchName/:(BatchName)"
-    Then User gets status code as 404
+    Then User get batch status code as 404
 
   @batch_put_ByName_400
   Scenario: The user (Admin) get 400 response code for invalid param for PUT request by Batch Name
     Given A service with "URL" is available
     When User add body with new batch name and batch description
     And User makes a "PUT" request with endpoint "/batches/batchName/:(BatchName)" with invalid param "testinvalid"
-    Then User gets status code as 400
+    Then User get batch status code as 400
