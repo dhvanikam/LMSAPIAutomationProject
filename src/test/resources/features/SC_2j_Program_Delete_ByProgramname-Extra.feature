@@ -10,6 +10,6 @@ Feature: Rest API testing for LMS Program module
   @program_delete_ByName_404
   Scenario: The user (Admin) get 404 response code for invalid path for DELETE request by ProgramName
     Given A service with "URL" is available
-    When User add body with new program name and program description
-    And User make a "DELETE BY PNAME" request with endpoint "/programinvalidpath/:(ProgramName)"
+    And User set the header
+    When User make a "DELETE BY PNAME" request with endpoint "/programinvalidpath/:(ProgramName)"
     Then User get status code as 404	
